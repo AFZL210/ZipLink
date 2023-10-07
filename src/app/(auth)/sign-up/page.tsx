@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { SignupFormSchema, SignupFormType, ICustomError } from '@/lib/types';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 

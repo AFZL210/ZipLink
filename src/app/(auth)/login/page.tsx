@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input'
@@ -9,14 +9,38 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { LoginFormSchema, LoginFormType } from '@/lib/types';
-import { signIn } from 'next-auth/react';
+import { useToast } from '@/components/ui/use-toast';
+import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
 
+  const { toast } = useToast();
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.status === 'authenticated') {
+      router.push('/dashboard')
+    }
+  })
+
   const onSubmit: SubmitHandler<LoginFormType> = async (data, e) => {
     e?.preventDefault();
-    await signIn('credentials', { email: data.email, password: data.password });
-    console.log(data)
+    signIn('credentials',
+      {
+        ...data, redirect: false
+      })
+      .then((callback: any) => {
+        console.log(callback)
+        if (callback?.error) {
+          toast({ description: callback?.error, variant: "destructive" })
+        }
+
+        if (callback?.ok && !callback?.error) {
+          toast({ description: "Logged in successfully!", variant: "default" });
+        }
+      })
   }
 
   const { handleSubmit, formState: { errors }, control } = useForm<LoginFormType>({

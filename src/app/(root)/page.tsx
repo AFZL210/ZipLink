@@ -1,9 +1,8 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import { Navbar } from '@/components/home/Navbar'
 import { Button } from '@/components/ui/button'
-import { YscrollThreshold } from '@/lib/contants'
 import Link from 'next/link'
 
 const page = () => {

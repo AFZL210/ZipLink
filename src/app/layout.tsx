@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { ToggleThemeButton } from '@/components/theme/toggle-theme'
+import { AuthContext } from '@/context/AuthContext'
+import { RecoilRootProvider } from '@/context/RecoilContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,7 +28,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthContext>
+            <RecoilRootProvider>
+              {children}
+            </RecoilRootProvider>
+          </AuthContext>
           <Toaster />
           <div style={{ position: "fixed", left: "12px", bottom: "12px" }}>
             <ToggleThemeButton />

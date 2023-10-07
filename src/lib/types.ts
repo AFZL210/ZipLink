@@ -23,3 +23,12 @@ export interface ICustomError {
         };
     };
 }
+
+export type StringORNull = string | null
+
+export type UserStateType = {
+    id: StringORNull,
+    email: StringORNull,
+    username: StringORNull,
+    profileImg?: StringORNull
+}
