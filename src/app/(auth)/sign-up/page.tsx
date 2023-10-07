@@ -12,6 +12,7 @@ import { SignupFormSchema, SignupFormType, ICustomError } from '@/lib/types';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 const Signup = () => {
 
@@ -84,8 +85,8 @@ const Signup = () => {
 
           <h1 className='text-center'>OR</h1>
           <div className='flex gap-5 items-center justify-center'>
-            <div className='cursor-pointer'><Image src="/static/google-icon.png" alt='google' width="35" height="35" /></div>
-            <div className='cursor-pointer'><Image src="/static/github-icon.png" alt='google' width="35" height="35" /></div>
+            <div className='cursor-pointer' onClick={() => signIn('google')}><Image src="/static/google-icon.png" alt='google' width="35" height="35" /></div>
+            <div className='cursor-pointer' onClick={() => signIn('github')}><Image src="/static/github-icon.png" alt='google' width="35" height="35" /></div>
           </div>
         </form>
       </div>

@@ -1,5 +1,5 @@
 import { selector } from 'recoil'
-import { userState } from '@/app/store/atoms/user'
+import { userState } from '@/store/atoms/user'
 
 export const usernameState = selector<string | null>({
     key: "usernameState",
