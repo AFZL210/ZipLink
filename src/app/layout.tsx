@@ -28,7 +28,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
-          <div style={{ position:"fixed", left:"12px", bottom:"12px" }}>
+          <div style={{ position: "fixed", left: "12px", bottom: "12px" }}>
             <ToggleThemeButton />
           </div>
         </ThemeProvider>
