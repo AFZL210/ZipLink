@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { LoginFormSchema, LoginFormType } from '@/lib/types';
+import { LoginFormSchema, LoginFormType } from '@/lib/types/types';
 import { useToast } from '@/components/ui/use-toast';
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
@@ -21,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      router.push('/dashboard')
+      router.push('/dashboard');
     }
   })
 

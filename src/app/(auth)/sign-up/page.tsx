@@ -8,16 +8,23 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { SignupFormSchema, SignupFormType, ICustomError } from '@/lib/types';
+import { SignupFormSchema, SignupFormType, ICustomError } from '@/lib/types/types';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 const Signup = () => {
 
   const { toast } = useToast();
   const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.status === 'authenticated') {
+      router.push('/dashboard');
+    }
+  })
 
   const onSubmit: SubmitHandler<SignupFormType> = async (data: SignupFormType) => {
     try {
@@ -31,6 +38,7 @@ const Signup = () => {
         variant: "destructive",
         description: (e as ICustomError).response?.data?.msg
       })
+      console.log(e)
     }
   }
 

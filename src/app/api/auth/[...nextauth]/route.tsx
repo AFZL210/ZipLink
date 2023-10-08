@@ -45,14 +45,44 @@ export const authOptions: AuthOptions = {
                 if (!passwordMatch) {
                     throw new Error('Incorrect password')
                 }
-
-                return user;
+                console.log(user)
+                return {
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    image: user.image,
+                    emailVerified: user.emailVerified
+                };
             },
         }),
     ],
     secret: process.env.SECRET,
     session: {
         strategy: "jwt",
+    },
+
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                return {
+                    ...token,
+                    username: user.username,
+                    id: user.id
+                }
+            }
+            return token;
+        },
+
+        async session({ session, token }) {
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    username: token.username,
+                    id: token.id
+                }
+            }
+        }
     },
     debug: process.env.NODE_ENV === "development",
 }

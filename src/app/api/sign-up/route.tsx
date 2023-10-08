@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
-import { SignupFormSchema } from '@/lib/types';
+import { SignupFormSchema } from '@/lib/types/types';
 import { prisma } from '@/db/db';
 import { BCRYPT_SALT_ROUNDS } from '@/lib/contants';
 
