@@ -32,3 +32,11 @@ export type UserStateType = {
     username: StringORNull,
     profileImg?: StringORNull
 }
+
+export type LinkItemType = {
+    favicon: string,
+    url: string,
+    shortUrl: string,
+    clicks: number,
+    createdAt: string
+}

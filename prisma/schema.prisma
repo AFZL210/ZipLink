@@ -59,7 +59,8 @@ model Link {
   id          String    @id @default(cuid())
   userId      String
   url         String
-  shortUrl    String
+  shortUrl    String?
+  urlCode     String    @unique
   clicks      Int       @default(0)
   isPrivate   Boolean   @default(false)
   password    String?
