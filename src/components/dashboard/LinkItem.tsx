@@ -20,14 +20,14 @@ const LinkItem: React.FC<LinkItemType> = ({ favicon, clicks, url, shortUrl, crea
                 <img className='w-[24px]' src={favicon} />
                 <div className='flex flex-col items-start justify-between py-3'>
                     <div className='flex items-center justify-center gap-3'>
-                        <a href='/l/dajsd6' target='_blank'><h1 className='text-[#1e40b4] font-bold'>{shortUrl}</h1></a>
+                        <a href={`${shortUrl}`} target='_blank'><h1 className='text-[#1e40b4] font-bold'>{shortUrl}</h1></a>
                         <TooltipProviderWrapper tip='Copy Link'>
                             <div><ContentCopyIcon sx={{ width: "1.4rem", padding: ".2rem", backgroundColor: 'rgb(243 244 246)', borderRadius: "50%" }} /></div>
                         </TooltipProviderWrapper>
                     </div>
                     <div className='flex gap-3 items-center'>
                         <span>•{createdAt}</span>
-                        <span className='md:block hidden'>{url}</span>
+                        <span className='md:block hidden'>{`${url.length <= 25 ? url : url.substring(0, 25)}...`}</span>
                     </div>
                 </div>
             </div>

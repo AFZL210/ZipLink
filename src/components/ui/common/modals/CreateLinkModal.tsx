@@ -15,14 +15,18 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from '../../use-toast'
+import { CreateModalPropsType } from '@/lib/types/types';
+import { LinksState } from '@/store/atoms/link';
+import { useRecoilState } from 'recoil'
 
-const CreateLinkModal = () => {
+const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
 
     const { toast } = useToast();
     const [destinationUrl, setDestinationUrl] = useState("");
     const [password, setPassword] = useState("");
     const [isProtected, setIsProtected] = useState(false);
     const modalTriggerRef = useRef<HTMLButtonElement | null>(null);
+    const [linksState, setLinksState] = useRecoilState(LinksState);
 
     const createnNewLink = async (e: any) => {
         e.preventDefault();
@@ -34,6 +38,7 @@ const CreateLinkModal = () => {
             });
 
             if (!res.data.error) {
+                getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) }).catch(e => console.log(e));
                 modalTriggerRef.current?.click();
                 toast({ description: "Copied link to clipboard", variant: "default" });
             }

@@ -43,7 +43,7 @@ export const POST = async (req: NextRequest) => {
 
         const newLink = await prisma.link.create({
             data: {
-                url: `${DOMAIN}/${destinationUrl}`,
+                url: `${destinationUrl}`,
                 urlCode: shortUrlCode,
                 isPrivate: isProtected,
                 password: isProtected ? password : "",

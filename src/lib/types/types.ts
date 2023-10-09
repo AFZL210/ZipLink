@@ -40,3 +40,32 @@ export type LinkItemType = {
     clicks: number,
     createdAt: string
 }
+
+export interface ILinkLocation {
+    id: string,
+    linkId?: string,
+    coutry?: string,
+    city?: string,
+    clicks?: number,
+}
+
+export interface ILink {
+    id: string,
+    userId: string,
+    favicon: string,
+    url: string,
+    shortUrl: string,
+    urlCode: string,
+    clicks: number,
+    isPrivate: boolean,
+    password: string,
+    user: UserStateType,
+    createdAt: Date,
+    updatedAt: Date,
+    locations?: ILinkLocation[]
+}
+
+
+export type CreateModalPropsType = {
+    getLinks: () => Promise<ILink[] | undefined>
+}
