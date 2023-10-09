@@ -21,7 +21,7 @@
     to right,
     #904e95,
     #e96443
-  ); /* Replace with your desired gradient colors */
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -29,4 +29,9 @@
 
 .boxshadow-one {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.boxshadow-two {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
