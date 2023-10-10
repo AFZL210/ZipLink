@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   const getLinks = async (): Promise<ILink[] | undefined> => {
     try {
-      const res = await axios.get('/api/link/get-links');
+      const res = await axios.post('/api/link/get-links', { userId: session?.user.id });
       return res.data.data;
 
     } catch (e) {
