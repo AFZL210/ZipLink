@@ -41,6 +41,8 @@ const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
                 getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) }).catch(e => console.log(e));
                 modalTriggerRef.current?.click();
                 toast({ description: "Copied link to clipboard", variant: "default" });
+                setPassword("");
+                setDestinationUrl("");
             }
         } catch (e) {
             await signOut();

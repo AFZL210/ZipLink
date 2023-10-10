@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { prisma } from '@/db/db';
+import bcrypt from 'bcrypt';
+import { BCRYPT_SALT_ROUNDS } from '@/lib/contants'
 
 const createShortUrlCode = async () => {
     const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -40,13 +42,17 @@ export const POST = async (req: NextRequest) => {
 
         const { destinationUrl, isProtected, password } = body;
         const shortUrlCode = await createShortUrlCode();
+        let hashedPassword = "";
+        if (isProtected) {
+            hashedPassword = bcrypt.hashSync(password, BCRYPT_SALT_ROUNDS);
+        }
 
         const newLink = await prisma.link.create({
             data: {
                 url: `${destinationUrl}`,
                 urlCode: shortUrlCode,
                 isPrivate: isProtected,
-                password: isProtected ? password : "",
+                password: isProtected ? hashedPassword : "",
                 shortUrl: `${DOMAIN}/l/${shortUrlCode}`,
 
                 user: {

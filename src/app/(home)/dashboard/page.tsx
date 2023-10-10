@@ -90,7 +90,7 @@ const Dashboard = () => {
             <div className='md:w-[60%] w-[88%] h-[5.5rem]'>
               {linksState.links.length !== 0 && <div className='w-[100%]'>
                 {linksState.links.map((link: any) => (
-                  <div className='mt-4 w-[100%]'><LinkItem favicon='http://www.google.com/s2/favicons?domain=www.dub.sh' clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />
+                  <div className='mt-4 w-[100%]'><LinkItem favicon={`http://www.google.com/s2/favicons?domain=${link.url}`} clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />
                   </div>))}
               </div>}
             </div>

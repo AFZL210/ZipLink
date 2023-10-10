@@ -1,40 +1,72 @@
 "use client";
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@radix-ui/react-dropdown-menu';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import React, { useEffect, useRef, useState } from 'react';
 
-const page = ({ params }: any) => {
+const GetLink = ({ params }: any) => {
 
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [destinationUrl, setDestinationUrl] = useState("");
-  
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [error, setError] = useState({ error: false, msg: "" });
+
 
   const redirectURL = (url: string) => {
-    window.location.href = url;
+    window.location.replace(url)
   }
 
   const getLink = async () => {
     try {
-      console.log(params.urlCode)
-    const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode });
-    console.log(res.data)
-    return res.data;
+      const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: false, password: "" });
+      return res.data;
     } catch (e) {
       console.log(e);
     }
   }
 
+  const unlockLink = async (e: any) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: true, password });
+      setError({ ...error, error: false });
+      setIsPrivate(false);
+      redirectURL(res.data.data.url);
+
+    } catch (e) {
+      setError({ error: true, msg: "Wrong password!" });
+    }
+  }
+
   useEffect(() => {
-    getLink().then(d => redirectURL(d.data.url));
+    getLink().then((d) => {
+      if (!d.data.isPrivate) {
+        redirectURL(d.data.url)
+      } else {
+        setIsPrivate(true);
+      }
+    });
   }, [])
 
   return (
-    <div className='w-[100vw] h-[100vw]'>
-      {loading?<div>redirecting...</div>:<div>opening ${destinationUrl}</div>}
+    <div className='w-[100vw] h-[100vh]'>
+      <a href={destinationUrl} className='hidden'></a>
+      {!isPrivate ? <div>{loading ? <span>redirecting...</span> : <span>{`opening ${destinationUrl}`}</span>}</div> :
+        <div className='w-[100%] h-[100%] flex items-center justify-center'>
+          <div className='flex flex-col gap-2'>
+            <form onSubmit={unlockLink}>
+              {error.error && <span className='text-red-600'>{error.msg}</span>}
+              <Label>Enter Link Password</Label>
+              <Input type="text" placeholder="mysecret" required value={password} onChange={(e) => setPassword(e.target.value)} />
+              <Button type="submit" style={{ marginTop: "10px", marginBottom: "10px" }}>Unlock</Button>
+            </form>
+          </div>
+        </div>}
     </div>
   )
 }
 
-export default page
+export default GetLink

@@ -11,8 +11,12 @@ import {
 import TooltipProviderWrapper from '../ui/common/tooltip-provider';
 import Link from 'next/link';
 import { LinkItemType } from '@/lib/types/types';
+import { copyText } from '@/lib/helpers';
+import { useToast } from '../ui/use-toast';
 
 const LinkItem: React.FC<LinkItemType> = ({ favicon, clicks, url, shortUrl, createdAt }) => {
+
+    const { toast } = useToast();
 
     return (
         <div className='w-[100%] h-[100%] flex items-center justify-between px-3 bg-white boxshadow-two'>
@@ -22,7 +26,10 @@ const LinkItem: React.FC<LinkItemType> = ({ favicon, clicks, url, shortUrl, crea
                     <div className='flex items-center justify-center gap-3'>
                         <a href={`${shortUrl}`} target='_blank'><h1 className='text-[#1e40b4] font-bold'>{shortUrl}</h1></a>
                         <TooltipProviderWrapper tip='Copy Link'>
-                            <div><ContentCopyIcon sx={{ width: "1.4rem", padding: ".2rem", backgroundColor: 'rgb(243 244 246)', borderRadius: "50%" }} /></div>
+                            <div onClick={() => {
+                                copyText(shortUrl);
+                                toast({ description: "Copied the link to the clipboard" });
+                            }}><ContentCopyIcon sx={{ width: "1.4rem", padding: ".2rem", backgroundColor: 'rgb(243 244 246)', borderRadius: "50%" }} /></div>
                         </TooltipProviderWrapper>
                     </div>
                     <div className='flex gap-3 items-center'>
