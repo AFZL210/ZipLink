@@ -1,11 +1,11 @@
 import { selector } from 'recoil'
-import { linksState } from '@/store/atoms/link'
+import { LinksState } from '@/store/atoms/link'
 import { ILink } from '@/lib/types/types';
 
 export const filterTypeState = selector<ILink[]>({
     key: "getLinksState",
     get: ({ get }) => {
-        const state = get(linksState);
+        const state = get(LinksState);
         return state.links;
     }
 })
