@@ -27,12 +27,8 @@ const Dashboard = () => {
   const [filter, setFilter] = useRecoilState(filterState);
   const [search, setSearch] = useState("");
   const [linksState, setLinksState] = useRecoilState(LinksState);
-
-
-  if (status === 'unauthenticated') {
-    window.location.href = '/';
-  }
-
+  const [flag, setFlag] = useState(false);
+  
   const getLinks = async (): Promise<ILink[] | undefined> => {
     try {
       const res = await axios.post('/api/link/get-links', { userId: session?.user.id });
@@ -45,11 +41,16 @@ const Dashboard = () => {
     }
   }
 
-  useEffect(() => {
+  if (status === 'unauthenticated') {
+    window.location.href = '/';
+  }
+
+  if (status == 'authenticated' && !flag) {
+    setFlag(true);
     getLinks().then((d) => {
-      setLinksState({ loading: false, links: d==undefined?[]:d });
-    })
-  }, []);
+      setLinksState({ loading: false, links: d == undefined ? [] : d });
+    });
+  }
 
   return (
     <div className='w-[100vw] h-[80vh] overflow-x-hidden flex flex-col items-center justify-start'>
