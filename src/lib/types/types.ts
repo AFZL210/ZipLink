@@ -34,11 +34,13 @@ export type UserStateType = {
 }
 
 export type LinkItemType = {
+    id: string,
     favicon: string,
     url: string,
     shortUrl: string,
     clicks: number,
-    createdAt: string
+    createdAt: string,
+    getLinks: () => Promise<ILink[] | undefined>
 }
 
 export interface ILinkLocation {

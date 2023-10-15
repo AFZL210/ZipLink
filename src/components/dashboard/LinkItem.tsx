@@ -13,10 +13,34 @@ import Link from 'next/link';
 import { LinkItemType } from '@/lib/types/types';
 import { copyText } from '@/lib/helpers';
 import { useToast } from '../ui/use-toast';
+import axios from 'axios';
+import { LinksState } from '@/store/atoms/link';
+import { useRecoilState } from 'recoil';
 
-const LinkItem: React.FC<LinkItemType> = ({ favicon, clicks, url, shortUrl, createdAt }) => {
+const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, createdAt, getLinks }) => {
 
     const { toast } = useToast();
+    const [linksState, setLinksState] = useRecoilState(LinksState);
+
+    const deleteLink = async () => {
+        const ok = confirm("Do you really want to delete this link?");
+
+        if (ok) {
+            try {
+                const res = await axios.delete('/api/link/delete-link', { headers: { linkId: id } });
+                const variant = res.data.error ? "destructive" : "default";
+                if (!res.data.error) {
+                    getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) });
+                }
+                toast({ description: res.data.msg, variant });
+            } catch (e) {
+                toast({ description: `${(e as Error).message}`, variant: "destructive" });
+                return;
+            }
+        } else {
+            return;
+        }
+    }
 
     return (
         <div className='w-[100%] h-[100%] flex items-center justify-between px-3 bg-white boxshadow-two'>
@@ -56,7 +80,7 @@ const LinkItem: React.FC<LinkItemType> = ({ favicon, clicks, url, shortUrl, crea
                             <DropdownMenuItem>Edit</DropdownMenuItem>
                             <DropdownMenuItem>Duplicate</DropdownMenuItem>
                             <DropdownMenuItem>QR Code</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                            <DropdownMenuItem style={{ backgroundColor: 'red', color: 'white' }} onClick={deleteLink}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 

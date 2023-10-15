@@ -1,23 +1,23 @@
 "use client"
 
-import React, { useState, useRef } from 'react'
-import axios from 'axios'
-import { signOut } from 'next-auth/react'
-import { Button } from "@/components/ui/button"
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import { signOut } from 'next-auth/react';
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { useToast } from '../../use-toast'
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from '../../use-toast';
 import { CreateModalPropsType } from '@/lib/types/types';
 import { LinksState } from '@/store/atoms/link';
-import { useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil';
 
 const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
 
@@ -38,7 +38,7 @@ const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
             });
 
             if (!res.data.error) {
-                getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) }).catch(e => console.log(e));
+                getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) });
                 modalTriggerRef.current?.click();
                 toast({ description: "Copied link to clipboard", variant: "default" });
                 setPassword("");
@@ -46,8 +46,8 @@ const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
             }
         } catch (e) {
             await signOut();
-            window.location.href = '/';
             toast({ description: `${(e as Error).message}`, variant: "destructive" });
+            window.location.href = '/';
         }
     }
 

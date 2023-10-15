@@ -1,24 +1,24 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSession, signOut } from 'next-auth/react'
-import CreateLinkModal from '@/components/ui/common/modals/CreateLinkModal'
+import { useSession, signOut } from 'next-auth/react';
+import CreateLinkModal from '@/components/ui/common/modals/CreateLinkModal';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Input } from '@/components/ui/input'
-import LinkItem from '@/components/dashboard/LinkItem'
+} from "@/components/ui/select";
+import { Input } from '@/components/ui/input';
+import LinkItem from '@/components/dashboard/LinkItem';
 import { useToast } from '@/components/ui/use-toast';
 import { useRecoilState } from 'recoil';
 import { filterState } from '@/store/atoms/link';
 import { LinksState } from '@/store/atoms/link';
 import Loader from '@/components/ui/common/Loader';
-import { ILink } from '@/lib/types/types';
+import type { ILink } from '@/lib/types/types';
 
 const Dashboard = () => {
 
@@ -28,7 +28,7 @@ const Dashboard = () => {
   const [search, setSearch] = useState("");
   const [linksState, setLinksState] = useRecoilState(LinksState);
   const [flag, setFlag] = useState(false);
-  
+
   const getLinks = async (): Promise<ILink[] | undefined> => {
     try {
       const res = await axios.post('/api/link/get-links', { userId: session?.user.id });
@@ -36,12 +36,13 @@ const Dashboard = () => {
 
     } catch (e) {
       await signOut();
-      window.location.href = '/';
       toast({ description: `${(e as Error).message}`, variant: "destructive" });
+      window.location.href = '/';
     }
   }
 
   if (status === 'unauthenticated') {
+    toast({ description: "You are not authenticated!", variant: "destructive" });
     window.location.href = '/';
   }
 
@@ -91,7 +92,7 @@ const Dashboard = () => {
             <div className='md:w-[60%] w-[88%] h-[5.5rem]'>
               {linksState.links.length !== 0 && <div className='w-[100%]'>
                 {linksState.links.map((link: any) => (
-                  <div className='mt-4 w-[100%]'><LinkItem favicon={`http://www.google.com/s2/favicons?domain=${link.url}`} clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />
+                  <div className='mt-4 w-[100%]'><LinkItem  id={link.id} getLinks={getLinks} favicon={`http://www.google.com/s2/favicons?domain=${link.url}`} clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />
                   </div>))}
               </div>}
             </div>
