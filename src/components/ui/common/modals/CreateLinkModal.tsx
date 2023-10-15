@@ -18,6 +18,7 @@ import { useToast } from '../../use-toast';
 import { CreateModalPropsType } from '@/lib/types/types';
 import { LinksState } from '@/store/atoms/link';
 import { useRecoilState } from 'recoil';
+import { copyText } from '@/lib/helpers';
 
 const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
 
@@ -40,6 +41,7 @@ const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
             if (!res.data.error) {
                 getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) });
                 modalTriggerRef.current?.click();
+                copyText(res.data.data.shortUrl);
                 toast({ description: "Copied link to clipboard", variant: "default" });
                 setPassword("");
                 setDestinationUrl("");

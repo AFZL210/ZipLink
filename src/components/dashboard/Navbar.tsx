@@ -1,8 +1,8 @@
 "use client"
 
-import React from 'react'
-import Image from 'next/image'
-import { signOut, useSession } from 'next-auth/react'
+import React from 'react';
+import Image from 'next/image';
+import { signOut, useSession } from 'next-auth/react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useRouter } from 'next/navigation'
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from 'next/navigation';
 
 
 export const Navbar = () => {
@@ -40,8 +40,7 @@ export const Navbar = () => {
                                 </div>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem style={{ cursor: 'pointer' }}>Settings</DropdownMenuItem>
-                            <DropdownMenuItem style={{ cursor: 'pointer' }}>Subscription</DropdownMenuItem>
+                            <DropdownMenuItem style={{ cursor: 'pointer' }} onClick={() => router.push('/settings')}>Settings</DropdownMenuItem>
                             <DropdownMenuItem style={{ cursor: 'pointer' }} onClick={async () => {
                                 await signOut();
                                 window.location.href = '/';

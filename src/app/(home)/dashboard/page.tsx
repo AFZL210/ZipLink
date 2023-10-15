@@ -15,10 +15,11 @@ import { Input } from '@/components/ui/input';
 import LinkItem from '@/components/dashboard/LinkItem';
 import { useToast } from '@/components/ui/use-toast';
 import { useRecoilState } from 'recoil';
-import { filterState } from '@/store/atoms/link';
+import { filterState } from '@/store/atoms/filter';
 import { LinksState } from '@/store/atoms/link';
 import Loader from '@/components/ui/common/Loader';
 import type { ILink } from '@/lib/types/types';
+import { sortLinks } from '@/lib/helpers';
 
 const Dashboard = () => {
 
@@ -81,18 +82,18 @@ const Dashboard = () => {
                       <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light" onClick={() => setFilter({ type: "Clicks" })}>Number of Clicks</SelectItem>
-                      <SelectItem value="dark" onClick={() => setFilter({ type: "Date" })}>Date Added</SelectItem>
-                      <SelectItem value="system" onClick={() => setFilter({ type: "LastClicked" })}>Last Clicked</SelectItem>
+                      <SelectItem value="light" onClick={() => setFilter("clicks")}>Number of Clicks</SelectItem>
+                      <SelectItem value="dark" onClick={() => setFilter("date-added")}>Date Added</SelectItem>
+                      <SelectItem value="system" onClick={() => setFilter("last-clicked")}>Last Clicked</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
             </div>
             <div className='md:w-[60%] w-[88%] h-[5.5rem]'>
-              {linksState.links.length !== 0 && <div className='w-[100%]'>
+              {linksState.links && linksState.links.length !== 0 && <div className='w-[100%]'>
                 {linksState.links.map((link: any) => (
-                  <div className='mt-4 w-[100%]'><LinkItem  id={link.id} getLinks={getLinks} favicon={`http://www.google.com/s2/favicons?domain=${link.url}`} clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />
+                  <div className='mt-4 w-[100%]'><LinkItem urlCode={link.urlCode} isProtected={link.isProtected} password={link.password} id={link.id} getLinks={getLinks} favicon={`http://www.google.com/s2/favicons?domain=${link.url}`} clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />
                   </div>))}
               </div>}
             </div>

@@ -40,7 +40,10 @@ export type LinkItemType = {
     shortUrl: string,
     clicks: number,
     createdAt: string,
-    getLinks: () => Promise<ILink[] | undefined>
+    getLinks: () => Promise<ILink[] | undefined>,
+    isProtected: boolean,
+    password: string,
+    urlCode: string
 }
 
 export interface ILinkLocation {
