@@ -8,19 +8,18 @@ export const DELETE = async (req: NextRequest) => {
         const token = await getToken({ req });
 
         if (token) {
-            const linkId = headers().get("linkId");
+            const userId = headers().get("userId");
 
-            if (!linkId) {
-                return NextResponse.json({ msg: "Provide a valid link ID", error: true });
-            }
-
-            await prisma.link.delete({
+            await prisma.user.delete({
                 where: {
-                    id: linkId
+                    id: userId!
                 }
             });
 
-            return NextResponse.json({ msg: "Deleted Link successfully!", error: false });
+            const response = NextResponse.json({ erro: false, status: 200, msg: "Deleted Link successfully!" });
+            response.cookies.delete(process.env.COOKIE_NAME!);
+
+            return response;
         } else {
             throw new Error("You are not authenticated!");
         }

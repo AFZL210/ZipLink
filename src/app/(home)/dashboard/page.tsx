@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useSession, signOut } from 'next-auth/react';
 import CreateLinkModal from '@/components/ui/common/modals/CreateLinkModal';

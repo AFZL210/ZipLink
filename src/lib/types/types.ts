@@ -27,10 +27,11 @@ export interface ICustomError {
 export type StringORNull = string | null
 
 export type UserStateType = {
-    id: StringORNull,
-    email: StringORNull,
-    username: StringORNull,
-    profileImg?: StringORNull
+    id?: StringORNull,
+    email?: StringORNull,
+    username?: StringORNull,
+    profileImg?: StringORNull,
+    name?: StringORNull
 }
 
 export type LinkItemType = {
@@ -70,6 +71,14 @@ export interface ILink {
     locations?: ILinkLocation[]
 }
 
+
+export type UpdateLinkModalPropType = {
+    url: string,
+    shortUrl: string,
+    isProtected: boolean,
+    password: string,
+    getLinks: () => Promise<ILink[] | undefined>
+}
 
 export type CreateModalPropsType = {
     getLinks: () => Promise<ILink[] | undefined>

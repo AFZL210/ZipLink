@@ -70,7 +70,7 @@ const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, 
                 <img className='w-[24px]' src={favicon} />
                 <div className='flex flex-col items-start justify-between py-3'>
                     <div className='flex items-center justify-center gap-3'>
-                        <a href={`${shortUrl}`} target='_blank'><h1 className='text-[#1e40b4] font-bold'>{shortUrl.substring(9, shortUrl.length)}</h1></a>
+                        <a href={`${shortUrl}`} target='_blank'><h1 className='text-[#1e40b4] font-bold'>{shortUrl.substring(8, shortUrl.length)}</h1></a>
                         <div className='md:block hidden'>
                             <TooltipProviderWrapper tip='Copy Link'>
                                 <div onClick={() => {

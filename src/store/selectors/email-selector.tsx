@@ -1,7 +1,7 @@
 import { selector } from 'recoil'
 import { userState } from '@/store/atoms/user'
 
-export const usernameState = selector<string | null>({
+export const usernameState = selector<string | undefined | null>({
     key: "usernameState",
     get: ({ get }) => {
         const state = get(userState);

@@ -1,11 +1,11 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { ThemeProvider } from '@/components/theme/theme-provider'
-import { Toaster } from '@/components/ui/toaster'
-import { ToggleThemeButton } from '@/components/theme/toggle-theme'
-import { AuthContext } from '@/context/AuthContext'
-import { RecoilRootProvider } from '@/context/RecoilContext'
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { ToggleThemeButton } from '@/components/theme/toggle-theme';
+import { AuthContext } from '@/context/AuthContext';
+import { RecoilRootProvider } from '@/context/RecoilContext';
 
 const inter = Inter({ subsets: ['latin'] })
 

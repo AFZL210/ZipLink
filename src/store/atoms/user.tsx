@@ -7,6 +7,7 @@ export const userState = atom<UserStateType>({
         email: null,
         id: null,
         profileImg: null,
-        username: null
+        username: null,
+        name: null
     }
 })

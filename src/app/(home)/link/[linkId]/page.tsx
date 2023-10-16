@@ -1,8 +1,8 @@
 import React from 'react'
 
-const page = ({params}: any) => {
+const page = () => {
   return (
-    <div>page {params.linkId}</div>
+    <div>page</div>
   )
 }
 
