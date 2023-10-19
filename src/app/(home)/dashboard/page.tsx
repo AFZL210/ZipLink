@@ -42,6 +42,12 @@ const Dashboard = () => {
     }
   }
 
+  useEffect(() => {
+    getLinks().then((d) => {
+      setLinksState({ loading: false, links: d == undefined ? [] : sortLinks(d, filter) });
+    });
+  }, [filter])
+
   if (status === 'unauthenticated') {
     toast({ description: "You are not authenticated!", variant: "destructive" });
     window.location.href = '/';
@@ -50,7 +56,7 @@ const Dashboard = () => {
   if (status == 'authenticated' && !flag) {
     setFlag(true);
     getLinks().then((d) => {
-      setLinksState({ loading: false, links: d == undefined ? [] : d });
+      setLinksState({ loading: false, links: d == undefined ? [] : sortLinks(d, "clicks") });
     });
   }
 
@@ -77,14 +83,14 @@ const Dashboard = () => {
               <div className='md:w-[60%] w-[88%] flex px-5 py-3 justify-between items-center mt-1'>
                 <div className='w-[100%] flex justify-start items-center gap-4'>
                   <div className='max-w-[50%]'><Input type="text" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} /></div>
-                  <Select>
+                  <Select onValueChange={(value) => { setFilter(value) }}>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="light" onClick={() => setFilter("clicks")}>Number of Clicks</SelectItem>
-                      <SelectItem value="dark" onClick={() => setFilter("date-added")}>Date Added</SelectItem>
-                      <SelectItem value="system" onClick={() => setFilter("last-clicked")}>Last Clicked</SelectItem>
+                      <SelectItem value="clicks">Number of Clicks</SelectItem>
+                      <SelectItem value="date-added">Date Added</SelectItem>
+                      <SelectItem value="last-clicked">Last Clicked</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { signOut } from 'next-auth/react';
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,9 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from '../../use-toast';
 import { CreateModalPropsType } from '@/lib/types/types';
 import { LinksState } from '@/store/atoms/link';
-import { useRecoilState } from 'recoil';
-import { copyText } from '@/lib/helpers';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { copyText, sortLinks } from '@/lib/helpers';
+import { filterState } from '@/store/atoms/filter';
 
 const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
 
@@ -28,6 +29,22 @@ const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
     const [isProtected, setIsProtected] = useState(false);
     const modalTriggerRef = useRef<HTMLButtonElement | null>(null);
     const [linksState, setLinksState] = useRecoilState(LinksState);
+    const filter = useRecoilValue(filterState);
+
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.type=="keydown" && (event.key==='c' || event.key==='C')) {
+            modalTriggerRef.current?.click();
+        }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
     const createnNewLink = async (e: any) => {
         e.preventDefault();
@@ -39,7 +56,7 @@ const CreateLinkModal = ({ getLinks }: CreateModalPropsType) => {
             });
 
             if (!res.data.error) {
-                getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : links }) });
+                getLinks().then((links) => { setLinksState({ loading: false, links: links == undefined ? [] : sortLinks(links, filter) }) });
                 modalTriggerRef.current?.click();
                 copyText(res.data.data.shortUrl);
                 toast({ description: "Copied link to clipboard", variant: "default" });

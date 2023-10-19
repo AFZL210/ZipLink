@@ -22,7 +22,7 @@ export const POST = async (req: NextRequest) => {
         }
         await prisma.link.update({
             where: { id: link?.id },
-            data: { clicks: { increment: 1 } }
+            data: { clicks: { increment: 1 }, lastClick: new Date() }
         });
         return NextResponse.json({ data: link, error: false }, { status: 200 });
     } catch (e) {

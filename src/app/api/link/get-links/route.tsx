@@ -8,7 +8,6 @@ export const POST = async (req: NextRequest) => {
 
         if (token) {
             const body = await req.json();
-            console.log(body.userId);
             const { userId } = body;
 
             const links = await prisma.link.findMany({

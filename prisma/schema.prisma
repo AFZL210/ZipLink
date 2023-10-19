@@ -8,20 +8,19 @@ datasource db {
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -43,8 +42,8 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
   links         Link[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -56,25 +55,26 @@ model VerificationToken {
 }
 
 model Link {
-  id          String    @id @default(cuid())
-  userId      String
-  url         String
-  shortUrl    String?
-  urlCode     String    @unique
-  clicks      Int       @default(0)
-  isPrivate   Boolean   @default(false)
-  password    String?
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  locations   LinkLocation[]
+  id        String         @id @default(cuid())
+  userId    String
+  url       String
+  shortUrl  String?
+  urlCode   String         @unique
+  clicks    Int            @default(0)
+  isPrivate Boolean        @default(false)
+  password  String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  lastClick DateTime?       @default(now())
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  locations LinkLocation[]
 }
 
 model LinkLocation {
-  id        String     @id  @default(cuid())
-  linkId    String
-  country   String?
-  city      String?
-  clicks    Int         @default(0)
-  link      Link        @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  id      String  @id @default(cuid())
+  linkId  String
+  country String?
+  city    String?
+  clicks  Int     @default(0)
+  link    Link    @relation(fields: [linkId], references: [id], onDelete: Cascade)
 }

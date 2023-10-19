@@ -68,6 +68,7 @@ export interface ILink {
     user: UserStateType,
     createdAt: Date,
     updatedAt: Date,
+    lastClicked: Date,
     locations?: ILinkLocation[]
 }
 

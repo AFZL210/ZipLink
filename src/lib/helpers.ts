@@ -7,20 +7,30 @@ export const copyText = (text: string) => {
 
 
 export const sortLinks = (arr: any, option: string): ILink[] => {
-    if(!arr) return arr;
-    
+    if (!arr) return arr;
+
     if (option === 'clicks') {
         arr.sort((a: ILink, b: ILink) => {
-            if (a.clicks < b.clicks) return 1;
-            if (a.clicks > b.clicks) return -1;
-            return 0;
-          });          
-    } else if (option === 'date') {
-        arr.sort((a: ILink, b: ILink) => {
-            return 0;
-        });
-    } else {
+            return b.clicks - a.clicks;
+        })
+    }
 
+    else if (option === 'date-added') {
+        arr.sort((a: ILink, b: ILink) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+
+            return dateB.getTime() - dateA.getTime();
+        });
+    }
+
+    else if (option === 'last-clicked') {
+        arr.sort((a: ILink, b: ILink) => {
+            const dateA = new Date(a.lastClicked);
+            const dateB = new Date(b.lastClicked);
+
+            return dateB.getTime() - dateA.getTime();
+        });
     }
 
     return arr;

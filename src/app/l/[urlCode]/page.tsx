@@ -43,6 +43,7 @@ const GetLink = ({ params }: any) => {
 
   useEffect(() => {
     getLink().then((d) => {
+      console.log(d)
       if (!d.data.isPrivate) {
         redirectURL(d.data.url)
       } else {
