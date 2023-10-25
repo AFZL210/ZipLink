@@ -5,6 +5,6 @@ export const usernameState = selector<string | undefined | null>({
     key: "usernameState",
     get: ({ get }) => {
         const state = get(userState);
-        return state.email
+        return state.username
     }
 })

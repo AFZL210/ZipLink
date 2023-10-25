@@ -65,9 +65,10 @@ model Link {
   password  String?
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
-  lastClick DateTime?       @default(now())
+  lastClick DateTime?      @default(now())
   user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   locations LinkLocation[]
+  dates     LinkDate[]
 }
 
 model LinkLocation {
@@ -77,4 +78,12 @@ model LinkLocation {
   city    String?
   clicks  Int     @default(0)
   link    Link    @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model LinkDate {
+  id     String    @id @default(cuid())
+  date   DateTime? @unique  @db.Date
+  clicks Int
+  linkId String
+  link   Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
 }

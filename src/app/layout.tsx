@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { ToggleThemeButton } from '@/components/theme/toggle-theme';
 import { AuthContext } from '@/context/AuthContext';
 import { RecoilRootProvider } from '@/context/RecoilContext';
+import Auth from '@/context/Auth';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
         >
           <AuthContext>
             <RecoilRootProvider>
+              <Auth />
               {children}
             </RecoilRootProvider>
           </AuthContext>

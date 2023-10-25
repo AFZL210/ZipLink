@@ -21,7 +21,7 @@ const GetLink = ({ params }: any) => {
 
   const getLink = async () => {
     try {
-      const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: false, password: "" });
+      const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: false, password: "", date: new Date().toISOString() });
       return res.data;
     } catch (e) {
       console.log(e);

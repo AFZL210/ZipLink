@@ -3,20 +3,24 @@ import { prisma } from '@/db/db';
 import { getToken } from "next-auth/jwt";
 import { headers } from 'next/headers';
 
-export const DELETE = async (req: NextRequest) => {
+export const PUT = async (req: NextRequest) => {
     try {
         const token = await getToken({ req });
 
         if (token) {
             const userId = headers().get("userId");
+            const username = headers().get("username");
 
-            await prisma.user.delete({
+            await prisma.user.update({
                 where: {
                     id: userId!
+                },
+                data: {
+                    username: username!
                 }
-            });
+            })
 
-            const response = NextResponse.json({ error: false, status: 200, msg: "Deleted Link successfully!" });
+            const response = NextResponse.json({ error: false, status: 200, msg: "Updated username successfully!" });
             
             return response;
         } else {

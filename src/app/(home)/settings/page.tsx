@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -9,12 +9,20 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/store/atoms/user';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
+import { Label } from '@/components/ui/label';
 
 const Settings = () => {
 
     const { data: session, status } = useSession();
     const [user, setUser] = useRecoilState(userState);
+    const [username, setUsername] = useState("");
+    const [file, setFile] = useState<File | null>(null);
+    const [errors, setErros] = useState({ username: { error: false, msg: "", disabled: true }, avatar: { error: false, msg: "", disabled: true } });
     const { toast } = useToast();
+
+    useEffect(() => {
+        setUsername(user.username!)
+    }, [user])
 
     if (status === 'loading') {
         return <div className='w-[100vw] h-[calc(100vh-8rem)] flex items-center justify-center'><Loader /></div>
@@ -45,6 +53,31 @@ const Settings = () => {
         }
     }
 
+
+    const updateAccount = async (option: string) => {
+        if (option === "username") {
+            try {
+                if (username == "") {
+                    setErros({ username: { error: true, msg: "username cannot be empty", disabled: true }, avatar: { ...errors.avatar } })
+                    return;
+                }
+                const res = await axios.put('/api/user/update-user', {}, { headers: { userId: user.id, username } });
+                toast({ description: res.data.msg, variant: "default" });
+                setUser({ username: username, ...user });
+                setErros({ username: { ...errors.username, disabled: true }, avatar: { ...errors.avatar } });
+            } catch (e) {
+
+            }
+        } else {
+            try {
+
+            } catch (e) {
+
+            }
+        }
+    }
+
+
     return (
         <div className='w-[100vw] h-[calc(100vh-8rem)] overflow-x-hidden flex flex-col items-center justify-start'>
             <div className='w-[100%] flex items-center justify-center'>
@@ -65,7 +98,12 @@ const Settings = () => {
                     <div className='flex flex-col gap-5 md:w-[60%] w-[88%]'>
                         <div className='w-[100%] flex flex-col gap-5 items-start h-fit px-[3rem] py-[2rem]' id='boxshadow-two'>
                             <h1 className='font-medium text-2xl'>Username</h1>
-                            <div className='w-[100%] flex items-center justify-between gap-2'><Input type='text' value={user.username || ""} /><Button disabled={true}>Save</Button></div>
+                            {errors.username.error && <Label style={{ color: 'red' }}>{errors.username.msg}</Label>}
+                            <div className='w-[100%] flex items-center justify-between gap-2'><Input type='text' value={username} placeholder={`${username}`} onChange={(e) => {
+                                setUsername(e.target.value);
+                                setErros({ username: { ...errors.username, disabled: false }, avatar: { ...errors.avatar } });
+                            }} />
+                                <Button disabled={errors.username.disabled && username !== ""} onClick={() => updateAccount("username")}>Save</Button></div>
                         </div>
                         <div className='w-[100%] flex flex-col gap-5 items-start h-fit px-[3rem] py-[2rem]' id='boxshadow-two'>
                             <div className='w-[100%] flex items-center justify-between'>
@@ -73,8 +111,12 @@ const Settings = () => {
 
                             </div>
                             <div className='w-[100%] flex items-center justify-between gap-2'>
-                                <input type='file' />
-                                <Button disabled={true}>Save</Button></div>
+                                {errors.avatar.error && <Label style={{ color: 'red' }}>{errors.avatar.msg}</Label>}
+                                <input type='file' accept='image/png, image/gif, image/jpeg' onChange={(e) => {
+                                    setErros({ username: { ...errors.username }, avatar: { ...errors.avatar, disabled: false } });
+                                    setFile(e.target.files![0]);
+                                }} />
+                                <Button disabled={errors.avatar.disabled} onClick={() => updateAccount("avatar")}>Save</Button></div>
                         </div>
 
                         <div className='w-[100%] flex flex-col gap-5 items-start h-fit px-[3rem] py-[2rem]' id='boxshadow-two'>

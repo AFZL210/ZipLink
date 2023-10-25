@@ -5,7 +5,9 @@ import bcrypt from 'bcrypt';
 export const POST = async (req: NextRequest) => {
     try {
         const body = await req.json();
-        const { urlCode, checkPassword, password } = body;
+        let { urlCode, checkPassword, password, date } = body;
+
+        date = new Date(date.split('T')[0]);
 
         const link = await prisma.link.findFirst({
             where: {
@@ -22,7 +24,17 @@ export const POST = async (req: NextRequest) => {
         }
         await prisma.link.update({
             where: { id: link?.id },
-            data: { clicks: { increment: 1 }, lastClick: new Date() }
+            data: {
+                clicks: { increment: 1 },
+                lastClick: new Date(),
+                dates: {
+                    upsert: {
+                        where: { date: date },
+                        create: { clicks: 1, date: date },
+                        update: { clicks: { increment: 1 } }
+                    }
+                }
+            }
         });
         return NextResponse.json({ data: link, error: false }, { status: 200 });
     } catch (e) {
