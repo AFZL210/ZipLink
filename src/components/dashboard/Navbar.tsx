@@ -12,12 +12,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { userState } from '@/store/atoms/user';
 
 
 export const Navbar = () => {
 
     const { data: session } = useSession();
     const router = useRouter();
+    const user = useRecoilValue(userState);
 
     return (
         <div className='md:w-[60%] w-[88%] flex px-5 py-3 justify-between items-center'>
@@ -30,13 +33,13 @@ export const Navbar = () => {
                 {session && <div>
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Image style={{ borderRadius: "50%" }} src={session.user.image != null ? session.user.image : "https://avatars.githubusercontent.com/u/79896602?v=4"} width="35" height="35" alt='user' />
+                            <Image style={{ borderRadius: "50%" }} src={user.image != null ? user.image : "https://avatars.githubusercontent.com/u/79896602?v=4"} width="35" height="35" alt='user' />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuLabel>
                                 <div>
-                                    <h1 className='font-bold'>{session.user.username}</h1>
-                                    <span className='font-light'>{session.user.email}</span>
+                                    <h1 className='font-bold'>{user.username}</h1>
+                                    <span className='font-light'>{user.email}</span>
                                 </div>
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />

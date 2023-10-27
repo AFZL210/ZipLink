@@ -10,6 +10,7 @@ declare module "next-auth" {
         user: User & {
             username: string
             id: string
+            loading: boolean
         }
     }
 

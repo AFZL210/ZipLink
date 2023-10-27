@@ -1,6 +1,8 @@
+"use client"
+
 import { Navbar } from "@/components/dashboard/Navbar";
 import NavigationItem from "@/components/dashboard/NavigationItem";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     return (

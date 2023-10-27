@@ -30,8 +30,9 @@ export type UserStateType = {
     id?: StringORNull,
     email?: StringORNull,
     username?: StringORNull,
-    profileImg?: StringORNull,
-    name?: StringORNull
+    image?: StringORNull,
+    name?: StringORNull,
+    loading: boolean
 }
 
 export type LinkItemType = {

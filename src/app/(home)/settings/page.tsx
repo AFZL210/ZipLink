@@ -20,8 +20,10 @@ const Settings = () => {
     const [errors, setErros] = useState({ username: { error: false, msg: "", disabled: true }, avatar: { error: false, msg: "", disabled: true } });
     const { toast } = useToast();
 
+    const p = process.env.CLOUDINARY_UPLOAD_PRESET;
+
     useEffect(() => {
-        setUsername(user.username!)
+        setUsername(user.username!);
     }, [user])
 
     if (status === 'loading') {
@@ -30,10 +32,6 @@ const Settings = () => {
 
     if (status === 'unauthenticated') {
         window.location.href = '/';
-    }
-
-    if (status === "authenticated") {
-        setUser(session.user);
     }
 
     const deleteAccount = async () => {
@@ -63,14 +61,14 @@ const Settings = () => {
                 }
                 const res = await axios.put('/api/user/update-user', {}, { headers: { userId: user.id, username } });
                 toast({ description: res.data.msg, variant: "default" });
-                setUser({ username: username, ...user });
+                const updatedUser = { ...user, username: username };
+                setUser(updatedUser);
                 setErros({ username: { ...errors.username, disabled: true }, avatar: { ...errors.avatar } });
             } catch (e) {
-
+                toast({ description: `${(e as Error).message}`, variant: "destructive" });
             }
         } else {
             try {
-
             } catch (e) {
 
             }
