@@ -13,11 +13,7 @@ const Auth = () => {
     if (status === 'loading') {
         return <></>
     }
-
-    if (status === 'unauthenticated') {
-        window.location.href = '/';
-    }
-
+ 
     if (status === "authenticated") {
         setUser(session.user);
     }
