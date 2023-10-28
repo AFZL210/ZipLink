@@ -10,6 +10,8 @@ import { userState } from '@/store/atoms/user';
 import axios from 'axios';
 import { useToast } from '@/components/ui/use-toast';
 import { Label } from '@/components/ui/label';
+import { uploadImage } from '@/lib/actions/common';
+import { prisma } from '@/db/db';
 
 const Settings = () => {
 
@@ -19,8 +21,6 @@ const Settings = () => {
     const [file, setFile] = useState<File | null>(null);
     const [errors, setErros] = useState({ username: { error: false, msg: "", disabled: true }, avatar: { error: false, msg: "", disabled: true } });
     const { toast } = useToast();
-
-    const p = process.env.CLOUDINARY_UPLOAD_PRESET;
 
     useEffect(() => {
         setUsername(user.username!);
@@ -51,7 +51,6 @@ const Settings = () => {
         }
     }
 
-
     const updateAccount = async (option: string) => {
         if (option === "username") {
             try {
@@ -59,7 +58,7 @@ const Settings = () => {
                     setErros({ username: { error: true, msg: "username cannot be empty", disabled: true }, avatar: { ...errors.avatar } })
                     return;
                 }
-                const res = await axios.put('/api/user/update-user', {}, { headers: { userId: user.id, username } });
+                const res = await axios.put('/api/user/update-user', {}, { headers: { userId: user.id, username, email: user.email, image: user.image } });
                 toast({ description: res.data.msg, variant: "default" });
                 const updatedUser = { ...user, username: username };
                 setUser(updatedUser);
@@ -69,8 +68,16 @@ const Settings = () => {
             }
         } else {
             try {
+                if (file) {
+                    const res = await uploadImage(file);
+                    const updatedUser = { ...user, image: res };
+                    setUser(updatedUser);
+                    await axios.put('/api/user/update-user', {}, { headers: { userId: user.id, username, email: user.email, image: user.image } });
+                    console.log(user);
+                    setErros({ username: { ...errors.username }, avatar: { ...errors.avatar, disabled: true } });
+                }
             } catch (e) {
-
+                toast({ description: `${(e as Error).message}`, variant: "destructive" });
             }
         }
     }

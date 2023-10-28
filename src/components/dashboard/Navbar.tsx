@@ -18,9 +18,13 @@ import { userState } from '@/store/atoms/user';
 
 export const Navbar = () => {
 
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const router = useRouter();
     const user = useRecoilValue(userState);
+
+    if(status == "unauthenticated") {
+        return <></>
+    }
 
     return (
         <div className='md:w-[60%] w-[88%] flex px-5 py-3 justify-between items-center'>
@@ -33,7 +37,7 @@ export const Navbar = () => {
                 {session && <div>
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Image style={{ borderRadius: "50%" }} src={user.image != null ? user.image : "https://avatars.githubusercontent.com/u/79896602?v=4"} width="35" height="35" alt='user' />
+                            <Image style={{ borderRadius: "50%" }} src={user.image? user.image:""} width="35" height="35" alt='user' />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuLabel>

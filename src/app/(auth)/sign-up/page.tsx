@@ -79,7 +79,7 @@ const Signup = () => {
             <Controller
               name="password"
               control={control}
-              render={({ field }) => <Input {...field} placeholder='Password' />}
+              render={({ field }) => <Input {...field} placeholder='Password' type='password' />}
             />
             {errors.password && <Label style={{ color: "red" }}>{errors.password?.message}</Label>}
           </div>
