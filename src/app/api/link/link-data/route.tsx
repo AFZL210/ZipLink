@@ -3,9 +3,9 @@ import { prisma } from '@/db/db';
 import { headers } from 'next/headers';
 
 export const GET = async (req: NextRequest) => {
+    const urlCode = headers().get("urlCode");
+    
     try {
-        const urlCode = headers().get("urlCode");
-
         const link = await prisma.link.findFirst({
             where: {
                 urlCode: urlCode!

@@ -13,12 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ILink } from '@/lib/types/types';
 
 const page = ({ params }: any) => {
 
   const { toast } = useToast();
   const router = useRouter();
-  const [linkData, setLinkData] = useState(null);
+  const [linkData, setLinkData] = useState<ILink>();
   const [dates, setDates] = useState(new Array(12).fill(0));
   const [password, setPassword] = useState("");
   const [destinationUrl, setDestinationUrl] = useState("");
