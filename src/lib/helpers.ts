@@ -55,7 +55,23 @@ export const filterDates = (dates: IDate[], option: string): IDate[] => {
             }
         });
     } else if (option === dateFilterOptions.MONTH) {
-    } else {
+        const currentDate = new Date();
+
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth() + 1;
+
+        const filteredData = dates.filter(record => {
+            const recordDate = new Date(record.date);
+            const recordYear = recordDate.getFullYear();
+            const recordMonth = recordDate.getMonth() + 1;
+
+            return recordYear === currentYear && recordMonth === currentMonth;
+        });
+
+        res.push(...filteredData);
+    }
+    else {
+        res.push(...dates);
     }
 
     return res;

@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
                 return NextResponse.json({ data: null, error: true, msg: "Wrong Password!" }, { status: 403 });
             }
         }
-        
+
         await prisma.link.update({
             where: { id: link?.id },
             data: {

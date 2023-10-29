@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import TooltipProviderWrapper from '../ui/common/tooltip-provider';
+import TooltipProviderWrapper from '@/components/ui/common/tooltip-provider';
 import Link from 'next/link';
 import { LinkItemType } from '@/lib/types/types';
 import { copyText } from '@/lib/helpers';

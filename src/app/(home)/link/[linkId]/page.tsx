@@ -13,15 +13,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ILink } from '@/lib/types/types';
+import { IDate, ILink } from '@/lib/types/types';
 import { filterDates } from '@/lib/helpers';
+import LineChart from '@/components/ui/LineChart';
+import TooltipProviderWrapper from '@/components/ui/common/tooltip-provider';
+import { copyText } from '@/lib/helpers';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const page = ({ params }: any) => {
 
   const { toast } = useToast();
   const router = useRouter();
   const [linkData, setLinkData] = useState<ILink>();
-  const [dates, setDates] = useState(new Array(12).fill(0));
+  const [dates, setDates] = useState<IDate[]>([]);
+  const [chartDates, setChartDates] = useState<IDate[]>([]);
   const [password, setPassword] = useState("");
   const [destinationUrl, setDestinationUrl] = useState("");
   const [isProtected, setIsProtected] = useState(false);
@@ -64,12 +69,14 @@ const page = ({ params }: any) => {
       setPassword(data.data.password);
       setDestinationUrl(data.data.url);
       setDates(data.data.dates);
+      setChartDates(data.data.dates);
     });
   }, [])
 
   useEffect(() => {
     const res = filterDates(dates, filter);
-    setDates(res);
+    setChartDates(res);
+    console.log(dates)
   }, [filter])
 
   if (linkData == null) {
@@ -91,21 +98,32 @@ const page = ({ params }: any) => {
               <a href={linkData.shortUrl} target='_blank' className='font-bold'>{linkData?.shortUrl?.substr(8, linkData?.shortUrl.length)}</a>
               <div><ArrowIcon /></div>
             </div>
-            <Select onValueChange={(value) => { setFilter(value) }}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Sort By" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Today">Today</SelectItem>
-                <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
-                <SelectItem value="All Time">All Time</SelectItem>
-              </SelectContent>
-            </Select>
+
+            <div className='flex items-center gap-3'>
+              <TooltipProviderWrapper tip='Copy Link'>
+                <div onClick={() => {
+                  copyText(linkData.shortUrl);
+                  toast({ description: "Copied the link to the clipboard" });
+                }}><ContentCopyIcon />
+                </div>
+              </TooltipProviderWrapper>
+
+              <Select onValueChange={(value) => { setFilter(value) }}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Sort By" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Today">Today</SelectItem>
+                  <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                  <SelectItem value="All Time">All Time</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 
         <div className='w-[100%] flex flex-col mt-5'>
-          <div className='w-[100%] h-fit bg-white boxshadow-two flex flex-col items-start p-4'>
+          <div className='w-[100%] md:w-[60%] mx-auto h-fit bg-white boxshadow-two flex flex-col items-start p-4'>
             <div className='flex flex-col justify-center'>
               <div className='flex items-baseline gap-2'>
                 <h1 className='font-bold text-5xl'>{linkData.clicks}</h1>
@@ -113,6 +131,8 @@ const page = ({ params }: any) => {
               </div>
               <h1 className='uppercase'>Total Clicks</h1>
             </div>
+
+            <LineChart dates={chartDates} filter={filter} />
           </div>
         </div>
       </div>
