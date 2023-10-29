@@ -12,6 +12,14 @@ export const POST = async (req: NextRequest) => {
         const link = await prisma.link.findFirst({
             where: {
                 urlCode: urlCode
+            },
+            include: {
+                dates: {
+                    select: {
+                        date: true,
+                        clicks: true
+                    }
+                }
             }
         })
 
@@ -22,6 +30,7 @@ export const POST = async (req: NextRequest) => {
                 return NextResponse.json({ data: null, error: true, msg: "Wrong Password!" }, { status: 403 });
             }
         }
+        
         await prisma.link.update({
             where: { id: link?.id },
             data: {

@@ -12,9 +12,7 @@ export const PUT = async (req: NextRequest) => {
             const username = headers().get("username");
             const email = headers().get("email");
             const image = headers().get("image");
-
-            console.log(image)
-
+            
             await prisma.user.update({
                 where: {
                     id: userId!

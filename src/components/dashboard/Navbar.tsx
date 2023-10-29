@@ -22,7 +22,7 @@ export const Navbar = () => {
     const router = useRouter();
     const user = useRecoilValue(userState);
 
-    if(status == "unauthenticated") {
+    if (status == "unauthenticated") {
         return <></>
     }
 
@@ -37,7 +37,7 @@ export const Navbar = () => {
                 {session && <div>
                     <DropdownMenu>
                         <DropdownMenuTrigger>
-                            <Image style={{ borderRadius: "50%" }} src={user.image? user.image:""} width="35" height="35" alt='user' />
+                            <Image style={{ borderRadius: "50%" }} src={user.image ? user.image : ""} width="35" height="35" alt='user' />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuLabel>

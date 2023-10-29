@@ -1,4 +1,4 @@
-import z from 'zod';
+import z, { boolean } from 'zod';
 
 export const SignupFormSchema = z.object({
     username: z.string().min(1, { message: "Username is required" }),
@@ -79,9 +79,16 @@ export type UpdateLinkModalPropType = {
     shortUrl: string,
     isProtected: boolean,
     password: string,
-    getLinks: () => Promise<ILink[] | undefined>
+    getLinks: () => any
 }
 
 export type CreateModalPropsType = {
     getLinks: () => Promise<ILink[] | undefined>
 }
+
+export const UpdateLinkSchema = z.object({
+    isProtected: z.boolean(),
+    destinationUrl: z.string().min(1),
+    password: z.string(),
+    linkId: z.string().min(1)
+})
