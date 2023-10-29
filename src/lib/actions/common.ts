@@ -1,5 +1,3 @@
-import { prisma } from "@/db/db";
-
 export const uploadImage = async (file: File | null): Promise<string> => {
     try {
         const form = new FormData();
@@ -25,3 +23,6 @@ export const uploadImage = async (file: File | null): Promise<string> => {
     }
 };
 
+export const isWithinRange = (date: Date, start: Date, end: Date) => {
+    return date >= start && date <= end;
+};

@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ILink } from '@/lib/types/types';
+import { filterDates } from '@/lib/helpers';
 
 const page = ({ params }: any) => {
 
@@ -49,8 +50,7 @@ const page = ({ params }: any) => {
     }
 
     try {
-      // @ts-ignore
-      const res = await axios.patch('/api/link/update-link', { linkId: linkData.id, destinationUrl, password, isProtected });
+      const res = await axios.patch('/api/link/update-link', { linkId: linkData?.id, destinationUrl, password, isProtected });
       toast({ description: "Updated Link Successfully!", variant: "default" });
     } catch (e) {
       toast({ description: (e as Error).message, variant: "destructive" });
@@ -60,19 +60,24 @@ const page = ({ params }: any) => {
   useEffect(() => {
     getLink().then(data => {
       setLinkData(data.data);
-      console.log(data.data.isPrivate)
       setIsProtected(data.data.isPrivate);
       setPassword(data.data.password);
       setDestinationUrl(data.data.url);
-    })
+      setDates(data.data.dates);
+    });
   }, [])
+
+  useEffect(() => {
+    const res = filterDates(dates, filter);
+    setDates(res);
+  }, [filter])
 
   if (linkData == null) {
     return <></>
   }
 
   return (
-    <div className='w-[100vw] h-[calc(100vh - 8rem)] flex items-center justify-center overflow-x-hidden'>
+    <div className='w-[100vw] h-[calc(100vh - 8rem)] flex items-center justify-center overflow-x-hidden pb-6'>
       <div className='w-[90vw] h-[100%] flex flex-col mt-4'>
         <div className='w-fit px-2 py-1 rounded-full ease-in-out transition-[1.2s] flex items-center justify-start gap-2 hover:bg-gray-300 cursor-pointer'>
           <div className='rotate-180'><ArrowIcon /></div>
@@ -83,7 +88,7 @@ const page = ({ params }: any) => {
         <div className='w-[100%] flex flex-col mt-10'>
           <div className='w-[90vw] flex flex-col md:flex md:flex-row justify-center md:justify-between items-center'>
             <div className='cursor-pointer flex items-center gap-2 px-2 py-1 rounded-full ease-in-out transition-[1.2s] hover:gap-4'>
-              <a href={linkData.shortUrl} target='_blank' className='font-bold'>{linkData.shortUrl.substr(8, linkData.shortUrl.length)}</a>
+              <a href={linkData.shortUrl} target='_blank' className='font-bold'>{linkData?.shortUrl?.substr(8, linkData?.shortUrl.length)}</a>
               <div><ArrowIcon /></div>
             </div>
             <Select onValueChange={(value) => { setFilter(value) }}>
@@ -91,14 +96,25 @@ const page = ({ params }: any) => {
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="clicks">Today</SelectItem>
-                <SelectItem value="date-added">Last 30 Days</SelectItem>
-                <SelectItem value="last-clicked">All Time</SelectItem>
+                <SelectItem value="Today">Today</SelectItem>
+                <SelectItem value="Last 30 Days">Last 30 Days</SelectItem>
+                <SelectItem value="All Time">All Time</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
+        <div className='w-[100%] flex flex-col mt-5'>
+          <div className='w-[100%] h-fit bg-white boxshadow-two flex flex-col items-start p-4'>
+            <div className='flex flex-col justify-center'>
+              <div className='flex items-baseline gap-2'>
+                <h1 className='font-bold text-5xl'>{linkData.clicks}</h1>
+                <StatsIcon height='20' width='20' />
+              </div>
+              <h1 className='uppercase'>Total Clicks</h1>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

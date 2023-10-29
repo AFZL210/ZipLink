@@ -92,3 +92,8 @@ export const UpdateLinkSchema = z.object({
     password: z.string(),
     linkId: z.string().min(1)
 })
+
+export interface IDate {
+    date: string,
+    clicks: number
+}
