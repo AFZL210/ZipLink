@@ -9,7 +9,6 @@ const Auth = () => {
 
     const { data: session, status } = useSession();
     const [user, setUser] = useRecoilState(userState);
-    const [flag, setFlag] = useState(false);
 
     if (status === 'loading') {
         return <></>

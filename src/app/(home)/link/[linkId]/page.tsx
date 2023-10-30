@@ -41,27 +41,6 @@ const page = ({ params }: any) => {
     }
   }
 
-  const updateLink = async (e: any) => {
-    e.preventDefault();
-
-    if (isProtected && password == "") {
-      toast({ description: "Password Cannot be empty", variant: "destructive" });
-      return;
-    }
-
-    if (destinationUrl == "") {
-      toast({ description: "URL Cannot be empty", variant: "destructive" });
-      return;
-    }
-
-    try {
-      const res = await axios.patch('/api/link/update-link', { linkId: linkData?.id, destinationUrl, password, isProtected });
-      toast({ description: "Updated Link Successfully!", variant: "default" });
-    } catch (e) {
-      toast({ description: (e as Error).message, variant: "destructive" });
-    }
-  }
-
   useEffect(() => {
     getLink().then(data => {
       setLinkData(data.data);

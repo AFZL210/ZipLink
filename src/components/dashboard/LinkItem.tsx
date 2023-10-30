@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import AdsClickIcon from '@mui/icons-material/AdsClick';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -17,12 +17,32 @@ import axios from 'axios';
 import { LinksState } from '@/store/atoms/link';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
+import { Cross1Icon } from '@radix-ui/react-icons';
+import QRCode from 'qrcode';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, createdAt, getLinks, isProtected, password, urlCode }) => {
 
     const router = useRouter();
     const { toast } = useToast();
     const [linksState, setLinksState] = useRecoilState(LinksState);
+    const [openQR, setOpenQR] = useState(false);
+    const QRModalTrigger = useRef<HTMLButtonElement | null>(null);
+    const [destinationUrl, setDestinationUrl] = useState(url);
+    const [pswd, setPswd] = useState(`${isProtected ? password : ""}`);
+    const [isPrivate, setIsProtected] = useState(isProtected);
+    const modalTriggerRef = useRef<HTMLButtonElement | null>(null);
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     const deleteLink = async () => {
         const ok = confirm("Do you really want to delete this link?");
@@ -64,8 +84,59 @@ const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, 
         }
     }
 
+    const updateLink = async (e: any) => {
+        e.preventDefault();
+
+        if (isPrivate && password == "") {
+            toast({ description: "Password Cannot be empty", variant: "destructive" });
+            return;
+        }
+
+        if (destinationUrl == "") {
+            toast({ description: "URL Cannot be empty", variant: "destructive" });
+            return;
+        }
+
+        try {
+            const res = await axios.patch('/api/link/update-link', { linkId: id, destinationUrl, password: pswd, isProtected: isPrivate });
+            toast({ description: "Updated Link Successfully!", variant: "default" });
+            modalTriggerRef.current?.click();
+        } catch (e) {
+            toast({ description: (e as Error).message, variant: "destructive" });
+        }
+    }
+
+    const downloadQRCode = (e: any) => {
+        if (canvasRef !== null) {
+            let link = e.currentTarget;
+            link.setAttribute('download', `${new Date()}.png`);
+            // @ts-ignore
+            let image = canvasRef.current.toDataURL('image/png');
+            link.setAttribute('href', image);
+        }
+    };
+
+    const createQRCode = (link: string) => {
+        QRCode.toCanvas(document.getElementById('canvas'), link, function (error) {
+            if (error) console.error(error)
+            console.log('success!');
+        })
+    }
+
     return (
         <div className='w-[100%] h-[100%] flex items-center justify-between px-3 bg-white boxshadow-two'>
+            {
+                <div className={`absolute w-[100%] h-[calc(100vh-7rem)] left-1/2 top-1/2 py-5 bg-white z-50 transform -translate-x-1/2 -translate-y-1/2 ${openQR ? "block" : "hidden"} flex flex-col items-center`}>
+                    <div className='w-[100%] flex justify-between px-4'>
+                        <h1 className='font-bold text-3xl'>QR Code</h1>
+                        <Cross1Icon width={"30"} height={"30"} style={{ backgroundColor: "red", color: "white", cursor: "pointer" }} onClick={() => setOpenQR(false)} />
+                    </div>
+                    <canvas className='w-[70%] md:w-[20%] mt-10 mb-5' id='canvas' ref={canvasRef} />
+                    <h1>{shortUrl}</h1>
+                    <h1>Clicks: {clicks}</h1>
+                    <a id="download_image_link" href="download_link" onClick={downloadQRCode}><Button>Download QR Code</Button></a>
+                </div>
+            }
             <div className='w-[70%] flex items-center gap-4 justify-start'>
                 <img className='w-[24px]' src={favicon} />
                 <div className='flex flex-col items-start justify-between py-3'>
@@ -109,15 +180,48 @@ const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, 
                     <DropdownMenu>
                         <DropdownMenuTrigger><MoreVertIcon /></DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => router.push(`/link/${urlCode}`)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => modalTriggerRef.current?.click()}>Edit</DropdownMenuItem>
                             <DropdownMenuItem onClick={duplicateLink}>Duplicate</DropdownMenuItem>
-                            <DropdownMenuItem>QR Code</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => {
+                                if (openQR) {
+                                    setOpenQR(false);
+                                } else {
+                                    createQRCode(shortUrl);
+                                    setOpenQR(true)
+                                }
+                            }}>QR Code</DropdownMenuItem>
                             <DropdownMenuItem style={{ backgroundColor: 'red', color: 'white' }} onClick={deleteLink}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 
                 </div>
             </div>
+
+            <Dialog>
+                <DialogTrigger ref={modalTriggerRef}>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Update Link</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={updateLink}>
+                        <div className='flex flex-col items-center justify-center mt-4 gap-4'>
+                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                <Label htmlFor="destUrl">Destination Url</Label>
+                                <Input type="text" id="destUrl" placeholder="ziplink.me" required value={destinationUrl} onChange={(e) => setDestinationUrl(e.target.value)} />
+                            </div>
+                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                                <div className='flex justify-between items-center'>
+                                    <Label htmlFor="destUrl">Add Password</Label>
+                                    <Switch checked={isPrivate} onCheckedChange={(e) => setIsProtected(e)} />
+                                </div>
+                                {isPrivate && <Input type="password" id="urlPassword" placeholder="mysecret" required value={pswd} onChange={(e) => setPswd(e.target.value)} />}
+                            </div>
+                            <Button type='submit'>Update Link</Button>
+                        </div>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

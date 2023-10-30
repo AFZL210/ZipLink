@@ -76,3 +76,28 @@ export const filterDates = (dates: IDate[], option: string): IDate[] => {
 
     return res;
 };
+
+
+export const detectDeviceAndOS = (): string[] => {
+    const res: string[] = [];
+    const userAgent = window.navigator.userAgent;
+
+    const isAndroid = userAgent.indexOf("Android");
+    const isIphone = userAgent.indexOf("iPhone");
+    const isWindows = userAgent.indexOf("Windows");
+    const isLinux = userAgent.indexOf("Linux");
+
+    if (isAndroid != -1) res.push("Android");
+    else if (isIphone != -1) res.push("iPhone/iPad");
+    else if (isLinux && isAndroid == -1) res.push("Linux");
+    else if (isWindows != -1) res.push("Windows");
+    else res.push("Others");
+
+    if (userAgent.indexOf("Mobile") != -1) {
+        res.push("Mobile");
+    } else {
+        res.push("Desktop");
+    }
+
+    return res;
+}

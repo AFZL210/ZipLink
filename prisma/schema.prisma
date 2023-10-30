@@ -69,6 +69,8 @@ model Link {
   user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   locations LinkLocation[]
   dates     LinkDate[]
+  os        OSType[]
+  device    DeviceType[]
 }
 
 model LinkLocation {
@@ -87,3 +89,20 @@ model LinkDate {
   linkId String
   link   Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
 }
+
+model OSType {
+  id      String    @id @default(cuid())
+  os      String
+  clicks  Int
+  linkId  String
+  link    Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model DeviceType {
+  id          String    @id @default(cuid())
+  device      String
+  clicks      Int
+  linkId      String
+  link        Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
