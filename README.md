@@ -13,7 +13,12 @@ ZipLink is a feature-rich URL shortener and link management tool.
 
 ## Demo
 
-[Screencast from 30-10-23 06:06:44 PM IST.webm](https://github.com/AFZL210/ZipLink/assets/79896602/70606406-85f1-4f92-ac3e-dd4f43597718)
+
+
+https://github.com/AFZL210/ZipLink/assets/79896602/f1621859-7fa0-4bdd-be39-c8cc0e848f8f
+
+
+
 
 ## Screenshots
 
