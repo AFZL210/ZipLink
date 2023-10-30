@@ -36,6 +36,7 @@ https://github.com/AFZL210/ZipLink/assets/79896602/f1621859-7fa0-4bdd-be39-c8cc0
 - [Prisma](https://www.prisma.io/)
 - [Tailwind](https://tailwindcss.com/)
 - [shadcn/ui](https://tailwindcss.com/)
+- [Cloudinary](https://cloudinary.com/)
 - [Vercel](https://ui.shadcn.com/)
 
 
