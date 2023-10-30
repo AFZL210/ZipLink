@@ -70,7 +70,7 @@ Install dependencies
 Start the dev server
 
 ```bash
-  npm run start
+  npm run dev
 ```
 
 NOTE: In ```ZipLink/src/middleware.ts```, use ```process.env.COOKIE_NAME``` for deployment and ```process.env.DEV_COOKIE_NAME``` for development
