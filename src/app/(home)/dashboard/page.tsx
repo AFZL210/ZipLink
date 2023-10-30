@@ -19,7 +19,7 @@ import { filterState } from '@/store/atoms/filter';
 import { LinksState } from '@/store/atoms/link';
 import Loader from '@/components/ui/common/Loader';
 import type { ILink } from '@/lib/types/types';
-import { sortLinks, detectDeviceAndOS } from '@/lib/helpers';
+import { sortLinks } from '@/lib/helpers';
 
 const Dashboard = () => {
 
@@ -60,37 +60,6 @@ const Dashboard = () => {
     });
   }
 
-  const detectDeviceAndOS = (): string[] => {
-    const res: string[] = [];
-    const userAgent = window.navigator.userAgent;
-
-    const isAndroid = userAgent.indexOf("Android");
-    const isIphone = userAgent.indexOf("iPhone");
-    const isWindows = userAgent.indexOf("Windows");
-    const isLinux = userAgent.indexOf("Linux");
-
-    if (isAndroid != -1) res.push("Android");
-    else if (isIphone != -1) res.push("iPhone/iPad");
-    else if (isLinux && isAndroid == -1) res.push("Linux");
-    else if (isWindows != -1) res.push("Windows");
-    else res.push("Others");
-
-    if (userAgent.indexOf("Mobile") != -1) {
-        res.push("Mobile");
-    } else {
-        res.push("Desktop");
-    }
-
-    return res;
-}
-
-useEffect(() => {
-  if (typeof window !== 'undefined') {
-    console.log(detectDeviceAndOS());
-  }
-}, []);
-
-
   return (
     <div className='w-[100vw] h-[80vh] overflow-x-hidden flex flex-col items-center justify-start'>
       {
@@ -128,6 +97,7 @@ useEffect(() => {
               </div>
             </div>
             <div className='md:w-[60%] w-[88%] h-[5.5rem]'>
+              {linksState.links.length == 0 && <h1 className='text-center'>Create your first ZipLink!</h1>}
               {linksState.links && linksState.links.length !== 0 && <div className='w-[100%]'>
                 {linksState.links.map((link: ILink) => (
                   <div className='mt-4 w-[100%]'><LinkItem urlCode={link.urlCode} isProtected={link.isPrivate} password={link.password} id={link.id} getLinks={getLinks} favicon={`http://www.google.com/s2/favicons?domain=${link.url}`} clicks={link.clicks} createdAt={"20m"} shortUrl={link.shortUrl} url={link.url} />

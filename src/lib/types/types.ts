@@ -97,3 +97,13 @@ export interface IDate {
     date: string,
     clicks: number
 }
+
+export interface IOs {
+    os: string,
+    clicks: number
+}
+
+export interface IDevice {
+    device: string,
+    clicks: number
+}

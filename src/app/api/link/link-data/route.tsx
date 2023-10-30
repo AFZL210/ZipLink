@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 
 export const GET = async (req: NextRequest) => {
     const urlCode = headers().get("urlCode");
-    
+
     try {
         const link = await prisma.link.findFirst({
             where: {
@@ -15,6 +15,18 @@ export const GET = async (req: NextRequest) => {
                     select: {
                         date: true,
                         clicks: true
+                    }
+                },
+                os: {
+                    select: {
+                        clicks: true,
+                        os: true
+                    }
+                },
+                device: {
+                    select: {
+                        clicks: true,
+                        device: true
                     }
                 }
             }

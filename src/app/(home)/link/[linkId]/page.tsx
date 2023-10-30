@@ -13,12 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { IDate, ILink } from '@/lib/types/types';
+import { IDate, IDevice, ILink } from '@/lib/types/types';
 import { filterDates } from '@/lib/helpers';
 import LineChart from '@/components/ui/LineChart';
 import TooltipProviderWrapper from '@/components/ui/common/tooltip-provider';
 import { copyText } from '@/lib/helpers';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { PieChart } from '@/components/ui/PieChart';
+import { IOType } from 'child_process';
+import Loader from '@/components/ui/common/Loader';
 
 const page = ({ params }: any) => {
 
@@ -27,6 +30,8 @@ const page = ({ params }: any) => {
   const [linkData, setLinkData] = useState<ILink>();
   const [dates, setDates] = useState<IDate[]>([]);
   const [chartDates, setChartDates] = useState<IDate[]>([]);
+  const [os, setOs] = useState<IOType[]>([]);
+  const [device, setDevice] = useState<IDevice[]>([]);
   const [password, setPassword] = useState("");
   const [destinationUrl, setDestinationUrl] = useState("");
   const [isProtected, setIsProtected] = useState(false);
@@ -43,13 +48,19 @@ const page = ({ params }: any) => {
 
   useEffect(() => {
     getLink().then(data => {
+      console.log(data.data)
       setLinkData(data.data);
       setIsProtected(data.data.isPrivate);
       setPassword(data.data.password);
       setDestinationUrl(data.data.url);
       setDates(data.data.dates);
       setChartDates(data.data.dates);
-    });
+      setOs(data.data.os);
+      setDevice(data.data.device);
+    }).catch(e => {
+      toast({ description: "Error Loading data!", variant: "destructive" });
+      router.back();
+    })
   }, [])
 
   useEffect(() => {
@@ -59,7 +70,9 @@ const page = ({ params }: any) => {
   }, [filter])
 
   if (linkData == null) {
-    return <></>
+    return <div className='w-[100vw] h-[calc(100vh-8rem)] flex items-center justify-center'>
+      <Loader />
+    </div>
   }
 
   return (
@@ -102,7 +115,7 @@ const page = ({ params }: any) => {
         </div>
 
         <div className='w-[100%] flex flex-col mt-5'>
-          <div className='w-[100%] md:w-[60%] mx-auto h-fit bg-white boxshadow-two flex flex-col items-start p-4'>
+          <div className='w-[100%] md:w-[60%] mx-auto h-fit bg-white boxshadow-two flex flex-col items-start p-4 rounded-[.8rem]'>
             <div className='flex flex-col justify-center'>
               <div className='flex items-baseline gap-2'>
                 <h1 className='font-bold text-5xl'>{linkData.clicks}</h1>
@@ -112,6 +125,18 @@ const page = ({ params }: any) => {
             </div>
 
             <LineChart dates={chartDates} filter={filter} />
+          </div>
+        </div>
+
+
+        <div className='w-[100%] md:w-[60%] mx-auto h-fit md:flex md:flex-row flex flex-col  md:items-start p-4 md:justify-between justify-center items-center gap-5 py-2'>
+          <div className='w-[80%] md:w-[45%] h-[20rem] bg-white boxshadow-two rounded-[.8rem] flex flex-col items-center justify-center gap-1 mt-2 py-2'>
+            <h1 className='font-bold'>Operating System</h1>
+            {os.length != 0 ? <PieChart data={os} filter='OS' /> : <div className='w-[100%] h-[100%] flex items-center justify-center'><h1>No Data</h1></div>}
+          </div>
+          <div className='w-[80%] md:w-[45%] h-[20rem] bg-white boxshadow-two rounded-[.8rem] flex flex-col items-center justify-center gap-1 mt-2 py-2'>
+            <h1 className='font-bold'>Device</h1>
+            {device.length != 0 ? <PieChart data={device} filter='Device' /> : <div className='w-[100%] h-[100%] flex items-center justify-center'><h1>No Data</h1></div>}
           </div>
         </div>
       </div>

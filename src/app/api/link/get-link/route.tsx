@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const POST = async (req: NextRequest) => {
     try {
         const body = await req.json();
-        let { urlCode, checkPassword, password, date } = body;
+        let { urlCode, checkPassword, password, date, osType, deviceType } = body;
 
         date = new Date(date.split('T')[0]);
 
@@ -40,6 +40,20 @@ export const POST = async (req: NextRequest) => {
                     upsert: {
                         where: { date: date },
                         create: { clicks: 1, date: date },
+                        update: { clicks: { increment: 1 } }
+                    }
+                },
+                os: {
+                    upsert: {
+                        where: { os: osType },
+                        create: { os: osType, clicks: 1 },
+                        update: { clicks: { increment: 1 } }
+                    }
+                },
+                device: {
+                    upsert: {
+                        where: { device: deviceType },
+                        create: { device: deviceType, clicks: 1 },
                         update: { clicks: { increment: 1 } }
                     }
                 }

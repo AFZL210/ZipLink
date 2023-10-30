@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-dropdown-menu';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
+import { detectDeviceAndOS } from '@/lib/helpers';
 
 const GetLink = ({ params }: any) => {
 
@@ -14,14 +15,15 @@ const GetLink = ({ params }: any) => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [error, setError] = useState({ error: false, msg: "" });
 
-
   const redirectURL = (url: string) => {
-    window.location.replace(url)
+    if (typeof window !== 'undefined') {
+      window.location.replace(url)
+    }
   }
 
-  const getLink = async () => {
+  const getLink = async (deviceInfo: string[]) => {
     try {
-      const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: false, password: "", date: new Date().toISOString() });
+      const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: false, password: "", date: new Date().toISOString(), osType: deviceInfo[0], deviceType: deviceInfo[1] });
       return res.data;
     } catch (e) {
       console.log(e);
@@ -42,8 +44,15 @@ const GetLink = ({ params }: any) => {
   }
 
   useEffect(() => {
-    getLink().then((d) => {
-      console.log(d)
+
+    let deviceInfo: string[] = [];
+
+    if (typeof window !== 'undefined') {
+      deviceInfo = detectDeviceAndOS();
+    }
+
+    getLink(deviceInfo).then((d) => {
+      console.log(deviceInfo);
       if (!d?.data?.isPrivate) {
         redirectURL(d.data.url)
       } else {

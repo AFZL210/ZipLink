@@ -92,7 +92,7 @@ model LinkDate {
 
 model OSType {
   id      String    @id @default(cuid())
-  os      String
+  os      String    @unique
   clicks  Int
   linkId  String
   link    Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
@@ -100,7 +100,7 @@ model OSType {
 
 model DeviceType {
   id          String    @id @default(cuid())
-  device      String
+  device      String    @unique
   clicks      Int
   linkId      String
   link        Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
