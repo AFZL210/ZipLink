@@ -30,12 +30,13 @@ https://github.com/AFZL210/ZipLink/assets/79896602/f1621859-7fa0-4bdd-be39-c8cc0
 ## Tech Stack
 
 - [Next.js](https://nextjs.org/)
+- [NextAuth.js](https://next-auth.js.org/)
 - [Typescript](https://www.typescriptlang.org/)
+- [Supabase](https://supabase.com/)
 - [Prisma](https://www.prisma.io/)
 - [Tailwind](https://tailwindcss.com/)
-- [Supabase](https://supabase.com/)
-- [NextAuth.js](https://next-auth.js.org/)
-- [Vercel](https://vercel.com/)
+- [shadcn/ui](https://tailwindcss.com/)
+- [Vercel](https://ui.shadcn.com/)
 
 
 ## Run Locally
