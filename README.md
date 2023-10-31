@@ -32,6 +32,7 @@ https://github.com/AFZL210/ZipLink/assets/79896602/f1621859-7fa0-4bdd-be39-c8cc0
 - [Next.js](https://nextjs.org/)
 - [NextAuth.js](https://next-auth.js.org/)
 - [Typescript](https://www.typescriptlang.org/)
+- [Zod](https://zod.dev/)
 - [Supabase](https://supabase.com/)
 - [Prisma](https://www.prisma.io/)
 - [Tailwind](https://tailwindcss.com/)
