@@ -31,34 +31,81 @@ export const POST = async (req: NextRequest) => {
             }
         }
 
-        await prisma.link.update({
+        const res = await prisma.link.update({
             where: { id: link?.id },
             data: {
                 clicks: { increment: 1 },
                 lastClick: new Date(),
-                dates: {
-                    upsert: {
-                        where: { date: date },
-                        create: { clicks: 1, date: date },
-                        update: { clicks: { increment: 1 } }
-                    }
-                },
-                os: {
-                    upsert: {
-                        where: { os: osType },
-                        create: { os: osType, clicks: 1 },
-                        update: { clicks: { increment: 1 } }
-                    }
-                },
-                device: {
-                    upsert: {
-                        where: { device: deviceType },
-                        create: { device: deviceType, clicks: 1 },
-                        update: { clicks: { increment: 1 } }
-                    }
-                }
+            },
+            include: {
+                dates: { select: { id: true, date: true } },
+                os: { select: { id: true, os: true } },
+                device: { select: { id: true, device: true } }
             }
         });
+
+        const checkDate = res.dates.findIndex((e) => e.date?.toISOString().split('T')[0] == date.toISOString().split('T')[0]);
+
+        if (checkDate == -1) {
+            await prisma.linkDate.create({
+                data: {
+                    date: date,
+                    clicks: 1,
+                    link: {
+                        connect: {
+                            id: link?.id
+                        }
+                    }
+                },
+            })
+        } else {
+            await prisma.linkDate.update({
+                where: { id: res.dates[checkDate].id },
+                data: { clicks: { increment: 1 } }
+            })
+        }
+
+        const osCheck = res.os.findIndex((e) => e.os == osType);
+        const deviceCheck = res.device.findIndex((e) => e.device == deviceType);
+
+        if (osCheck == -1) {
+            await prisma.oSType.create({
+                data: {
+                    os: osType,
+                    clicks: 1,
+                    link: {
+                        connect: {
+                            id: link?.id
+                        }
+                    }
+                },
+            })
+        } else {
+            await prisma.oSType.update({
+                where: { id: res.os[osCheck].id },
+                data: { clicks: { increment: 1 } }
+            })
+        }
+
+        if (deviceCheck == -1) {
+            await prisma.deviceType.create({
+                data: {
+                    device: deviceType,
+                    clicks: 1,
+                    link: {
+                        connect: {
+                            id: link?.id
+                        }
+                    }
+                },
+            })
+        } else {
+            await prisma.oSType.update({
+                where: { id: res.device[deviceCheck].id },
+                data: { clicks: { increment: 1 } }
+            })
+        }
+
         return NextResponse.json({ data: link, error: false }, { status: 200 });
     } catch (e) {
         throw new Error((e as Error).message);
