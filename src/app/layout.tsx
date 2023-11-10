@@ -37,7 +37,7 @@ export default function RootLayout({
           </AuthContext>
           <Toaster />
           <div style={{ position: "fixed", left: "12px", bottom: "12px" }}>
-            <ToggleThemeButton />
+            {/* <ToggleThemeButton /> */}
           </div>
         </ThemeProvider>
       </body>

@@ -114,29 +114,28 @@ const page = ({ params }: any) => {
           </div>
         </div>
 
-        <div className='w-[100%] flex flex-col mt-5'>
-          <div className='w-[100%] md:w-[60%] mx-auto h-fit bg-white boxshadow-two flex flex-col items-start p-4 rounded-[.8rem]'>
-            <div className='flex flex-col justify-center'>
-              <div className='flex items-baseline gap-2'>
-                <h1 className='font-bold text-5xl'>{linkData.clicks}</h1>
-                <StatsIcon height='20' width='20' />
+        <div className='w-[100%] flex md:flex-row flex-col items-center justify-around'>
+          <div className='w-[100%] flex flex-col mt-5'>
+            <div className='w-[75%] mx-auto h-[50%]'>
+              <div className='flex flex-col justify-center'>
+                <div className='flex items-baseline gap-2'>
+                  <h1 className='font-bold text-5xl'>{linkData.clicks}</h1>
+                  <StatsIcon height='20' width='20' />
+                </div>
+                <h1 className='uppercase'>Total Clicks</h1>
               </div>
-              <h1 className='uppercase'>Total Clicks</h1>
+              <LineChart dates={chartDates} filter={filter} />
             </div>
-
-            <LineChart dates={chartDates} filter={filter} />
           </div>
-        </div>
-
-
-        <div className='w-[100%] md:w-[60%] mx-auto h-fit md:flex md:flex-row flex flex-col  md:items-start p-4 md:justify-between justify-center items-center gap-5 py-2'>
-          <div className='w-[80%] md:w-[45%] h-[20rem] bg-white boxshadow-two rounded-[.8rem] flex flex-col items-center justify-center gap-1 mt-2 py-2'>
-            <h1 className='font-bold'>Operating System</h1>
-            {os.length != 0 ? <PieChart data={os} filter='OS' /> : <div className='w-[100%] h-[100%] flex items-center justify-center'><h1>No Data</h1></div>}
-          </div>
-          <div className='w-[80%] md:w-[45%] h-[20rem] bg-white boxshadow-two rounded-[.8rem] flex flex-col items-center justify-center gap-1 mt-2 py-2'>
-            <h1 className='font-bold'>Device</h1>
-            {device.length != 0 ? <PieChart data={device} filter='Device' /> : <div className='w-[100%] h-[100%] flex items-center justify-center'><h1>No Data</h1></div>}
+          <div className='flex md:flex-col flex-row items-center gap-1 w-[45%] h-[50%] md:mt-10'>
+            <div className='w-[100%] md:w-[50%] bg-white boxshadow-two rounded-[.8rem] flex flex-col items-center justify-center gap-1 mt-2 py-2'>
+              <h1 className='font-bold'>Operating System</h1>
+              {os.length != 0 ? <PieChart data={os} filter='OS' /> : <div className='w-[100%] h-[100%] flex items-center justify-center'><h1>No Data</h1></div>}
+            </div>
+            <div className='w-[100%] md:w-[50%] bg-white boxshadow-two rounded-[.8rem] flex flex-col items-center justify-center gap-1 mt-2 py-2'>
+              <h1 className='font-bold'>Device</h1>
+              {device.length != 0 ? <PieChart data={device} filter='Device' /> : <div className='w-[100%] h-[100%] flex items-center justify-center'><h1>No Data</h1></div>}
+            </div>
           </div>
         </div>
       </div>

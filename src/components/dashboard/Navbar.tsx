@@ -28,7 +28,7 @@ export const Navbar = () => {
 
     return (
         <div className='md:w-[60%] w-[88%] flex px-5 py-3 justify-between items-center'>
-            <div className='flex gap-2 justify-center items-center cursor-pointer'>
+            <div className='flex gap-2 justify-center items-center cursor-pointer' onClick={() => window.location.href = '/'}>
                 <Image src="/static/logo.png" width="35" height="35" alt='logo' />
                 <h1 className='text-xl font-[800]'>ZipLink</h1>
             </div>
