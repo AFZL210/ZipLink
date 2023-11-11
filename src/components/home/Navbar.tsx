@@ -27,7 +27,7 @@ export const Navbar = () => {
           <Image src="/static/logo.png" width="35" height="35" alt='logo' />
           <h1 className='text-xl font-[800]'>ZipLink</h1>
         </div>
-
+        <div className='hidden md:block'>
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
@@ -78,6 +78,7 @@ export const Navbar = () => {
 
           </NavigationMenuList>
         </NavigationMenu>
+        </div>
 
       </div>
 

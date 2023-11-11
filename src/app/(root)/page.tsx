@@ -5,8 +5,12 @@ import { Navbar } from '@/components/home/Navbar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { motion } from "framer-motion"
+import { useRouter } from 'next/navigation';
+import Features from '@/components/Features';
 
 const page = () => {
+
+  const router = useRouter();
 
   return (
     <div className='main overflow-x-hidden flex flex-col items-center justify-start' >
@@ -21,12 +25,17 @@ const page = () => {
           <Button asChild style={{ borderRadius: "12px" }}>
             <Link href="/sign-up" className='text-sm'>Start For Free</Link>
           </Button>
-          <Button onClick={() => { window.location.href = "https://github.com/AFZL210/ZipLink" }} className='flex items-center justify-between px-2 bg-white hover:bg-white border border-black' style={{ borderRadius: "12px" }}>
+          <Link href={"https://github.com/AFZL210/ZipLink"} className='flex py-[.2rem] items-center justify-between px-2 bg-white hover:bg-white border border-black' style={{ borderRadius: "12px" }}>
             <img src='https://img.icons8.com/fluency/48/github.png' width="32px" />
             <span className='text-black text-sm'>Star on GitHub</span>
-          </Button>
+          </Link>
         </div>
-        
+
+        <div className='w-[90vw] md:w-[50vw] mx-auto'>
+          <video src='https://res.cloudinary.com/diijgtg7l/video/upload/v1699715654/qr-code_rhsphp.webm?_s=vp-1.7.0' className='w-[100%] mt-5 border border-gray-400 rounded-lg boxshadow-one' autoPlay loop />
+        </div>
+
+        <Features />
       </div>
     </div>
   )

@@ -4,6 +4,8 @@ import React from 'react';
 import { Navbar } from '@/components/home/Navbar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import VideoPlayer from '@/components/ui/VideoPlayer';
+import data from '@/data/common.json';
 
 const page = () => {
 
@@ -20,10 +22,14 @@ const page = () => {
           <Button asChild style={{ borderRadius: "12px" }}>
             <Link href="/sign-up" className='text-sm'>Start For Free</Link>
           </Button>
-          <Button onClick={() => { window.location.href = "https://github.com/AFZL210/ZipLink" }} className='flex items-center justify-between px-2 bg-white hover:bg-white border border-black' style={{ borderRadius: "12px" }}>
-          <img width="20" height="20" src="https://img.icons8.com/material-rounded/24/video.png" alt="video"/>
+          <Button onClick={() => { window.location.href = data.demo['qr-code-yt'] }} className='flex items-center justify-between px-2 bg-white hover:bg-white border border-black' style={{ borderRadius: "12px" }}>
+            <img src='https://img.icons8.com/fluency/48/github.png' width="32px" />
             <span className='text-black text-sm'>Watch Video</span>
           </Button>
+        </div>
+
+        <div className='md:w-[50vw] w-[70vw] mx-auto mt-10'>
+          <VideoPlayer url={data.demo['qr-code']} width={900} height={100} />
         </div>
       </div>
     </div>

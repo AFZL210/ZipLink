@@ -1,0 +1,10 @@
+{
+    "demo": {
+        "qr-code": "https://res.cloudinary.com/diijgtg7l/video/upload/v1699715654/qr-code_rhsphp.webm?_s=vp-1.7.0",
+        "qr-code-yt": "https://youtu.be/avzXYZh7eSg",
+        "analytics": "https://res.cloudinary.com/diijgtg7l/video/upload/v1699715560/analytics_ygbqom.webm?_s=vp-1.7.0",
+        "analytics-yt": "https://youtu.be/h2DY9Hdhk8Y",
+        "private-links": "https://res.cloudinary.com/diijgtg7l/video/upload/v1699715425/Screencast_from_11-11-23_08_15_02_PM_IST_tvtmou.webm?_s=vp-1.7.0",
+        "private-links-yt": "https://youtu.be/RCqL5lX5QC0"
+    }
+}
