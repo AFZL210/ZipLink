@@ -8,14 +8,13 @@ ZipLink is a feature-rich URL shortener and link management tool.
 - Public and Private Short Links
 - QR Codes
 - Analytics
-- Link Expiry
+- Link Expiry (coming soon)
 
 
 ## Demo
 
 
-
-https://github.com/AFZL210/ZipLink/assets/79896602/f1621859-7fa0-4bdd-be39-c8cc0e848f8f
+[home.webm](https://github.com/AFZL210/ZipLink/assets/79896602/8170d6c3-fe6b-49fe-888a-5fa24edc4f7c)
 
 
 
