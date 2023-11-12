@@ -24,6 +24,7 @@ export const authOptions: AuthOptions = {
                 email: { label: "Email", type: "text", placeholder: "jsmith" },
                 password: { label: "Password", type: "password" },
             },
+            // @ts-ignore
             async authorize(credentials) {
 
                 if (!credentials?.email || !credentials?.password) {
