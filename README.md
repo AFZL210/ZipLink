@@ -31,6 +31,7 @@ ZipLink is a feature-rich URL shortener and link management tool.
 - [NextAuth.js](https://next-auth.js.org/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Zod](https://zod.dev/)
+- [Recoil](https://recoiljs.org/)
 - [Supabase](https://supabase.com/)
 - [Prisma](https://www.prisma.io/)
 - [Tailwind](https://tailwindcss.com/)
