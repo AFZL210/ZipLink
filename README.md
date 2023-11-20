@@ -10,7 +10,7 @@ ZipLink is a feature-rich URL shortener and link management tool.
 - [x] Edit Links
 - [x] Duplicate Links
 - [x] Edit Profile
-- [ ] Custom Domain (comin soon)  
+- [ ] Custom Domain (coming soon)  
 - [ ] Link Expiry (coming soon)
 
 ## 📍 Demo
