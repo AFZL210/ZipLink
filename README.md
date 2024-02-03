@@ -1,4 +1,16 @@
-# [ZipLink](https://zip.afzl.tech/)
+<h1 align="center">
+            ✨ Welcome to ZipLink ✨
+</h1>
+
+<div align="center">
+
+![Badge](https://img.shields.io/badge/Tech_Stack-MERN-yellow) ![Badge](https://img.shields.io/badge/Version-1.2-green) ![Badge](https://img.shields.io/badge/License-Apache_2.0-blue) ![Badge](https://img.shields.io/badge/Type-OpenSource-orange) ![Badge](https://img.shields.io/badge/For-Students-red) 
+
+</div>
+
+
+![Screenshot from 2024-02-03 18-27-07](https://github.com/AFZL210/ZipLink/assets/79896602/561f9138-d6e1-4fd6-be30-a3cf4e8accc8)
+
 
 ZipLink is a feature-rich URL shortener and link management tool.
 
@@ -61,7 +73,6 @@ ZipLink is a feature-rich URL shortener and link management tool.
 | |____hooks
 | |____types
 | |____store
-| |____context
 ```
 
 - **`public/*`** - Static assets including images, fonts, audios, files, etc.
@@ -72,7 +83,6 @@ ZipLink is a feature-rich URL shortener and link management tool.
 - **`src/lib/types/*`** - Some types definitions
 - **`src/lib/utils.ts`** - More utilities functions but less complex than the ones in `lib`
 _ **`src/store`** - recoil atoms and selectors
-- **`src/context`** - auth related code
 
 ## 🛠️ Run Locally
 
