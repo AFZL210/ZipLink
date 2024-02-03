@@ -84,6 +84,11 @@ ZipLink is a feature-rich URL shortener and link management tool.
 - **`src/lib/utils.ts`** - More utilities functions but less complex than the ones in `lib`
 _ **`src/store`** - recoil atoms and selectors
 
+## Testing Credentials
+- email: test@test.com
+- password: test12345
+
+
 ## 🛠️ Run Locally
 
 Clone the project
