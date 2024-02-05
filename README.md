@@ -125,6 +125,10 @@ Start the dev server
 NOTE: In ```ZipLink/src/middleware.ts```, use ```process.env.COOKIE_NAME``` for deployment and ```process.env.DEV_COOKIE_NAME``` for development
 
 
+
+## Deploy using docker
+```docker build -t ziplink .```
+```docker run -p 3000:3000 ziplink```
 ## Authors
 
 - [@AFZL210](https://www.github.com/AFZL210)
