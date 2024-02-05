@@ -52,7 +52,6 @@ const GetLink = ({ params }: any) => {
     }
 
     getLink(deviceInfo).then((d) => {
-      console.log(deviceInfo);
       if (!d?.data?.isPrivate) {
         redirectURL(d.data.url)
       } else {

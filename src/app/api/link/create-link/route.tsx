@@ -14,7 +14,6 @@ const createShortUrlCode = async () => {
     while (true) {
         const randomChars = Array.from({ length: 6 }, () => characters.charAt(Math.floor(Math.random() * length)));
         const temp = randomChars.join('');
-        console.log(temp);
 
         const res = await prisma.link.findMany({
             where: {

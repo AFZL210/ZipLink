@@ -118,8 +118,7 @@ const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, 
 
     const createQRCode = (link: string) => {
         QRCode.toCanvas(document.getElementById("canvas"), link, function (error) {
-            if (error) console.error(error)
-            console.log('success!');
+            if (error) console.error(error);
         })
     }
 

@@ -40,7 +40,6 @@ const Settings = () => {
         if (ok) {
             try {
                 const res = await axios.delete('/api/user/delete-user', { headers: { userId: user.id } });
-                console.log(res)
                 toast({ description: "Successfully deleted your account.", variant: "default" });
                 window.location.href = "/";
             } catch (e) {
@@ -73,7 +72,6 @@ const Settings = () => {
                     const updatedUser = { ...user, image: res };
                     setUser(updatedUser);
                     await axios.put('/api/user/update-user', {}, { headers: { userId: user.id, username, email: user.email, image: user.image } });
-                    console.log(user);
                     setErros({ username: { ...errors.username }, avatar: { ...errors.avatar, disabled: true } });
                 }
             } catch (e) {

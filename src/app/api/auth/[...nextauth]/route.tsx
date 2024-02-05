@@ -46,7 +46,6 @@ export const authOptions: AuthOptions = {
                 if (!passwordMatch) {
                     throw new Error('Incorrect password')
                 }
-                console.log(user)
                 return {
                     id: user.id,
                     username: user.username,

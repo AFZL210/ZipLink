@@ -32,7 +32,6 @@ const Login = () => {
         ...data, redirect: false
       })
       .then((callback: any) => {
-        console.log(callback)
         if (callback?.error) {
           toast({ description: callback?.error, variant: "destructive" })
         }

@@ -48,7 +48,6 @@ const page = ({ params }: any) => {
 
   useEffect(() => {
     getLink().then(data => {
-      console.log(data.data)
       setLinkData(data.data);
       setIsProtected(data.data.isPrivate);
       setPassword(data.data.password);
