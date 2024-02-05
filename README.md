@@ -128,6 +128,7 @@ NOTE: In ```ZipLink/src/middleware.ts```, use ```process.env.COOKIE_NAME``` for 
 
 ## Deploy using docker
 ```docker build -t ziplink .```
+
 ```docker run -p 3000:3000 ziplink```
 ## Authors
 
