@@ -18,7 +18,7 @@ export const uploadImage = async (file: File | null): Promise<string> => {
             return "";
         }
     } catch (e) {
-        console.log((e as Error).message);
+        console.log("Something went wrong.");
         return "";
     }
 };

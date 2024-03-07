@@ -87,7 +87,7 @@ export const Navbar = () => {
           <Link href="/login">Login</Link>
         </Button>
         <Button asChild style={{ borderRadius: "12px" }}>
-          <Link href="/sign-up">Sig Up</Link>
+          <Link href="/sign-up">Sign Up</Link>
         </Button>
       </div>
     </div>

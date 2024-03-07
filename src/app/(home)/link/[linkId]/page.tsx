@@ -42,7 +42,7 @@ const page = ({ params }: any) => {
       const res = await axios.get('/api/link/link-data/', { headers: { urlCode: params.linkId } });
       return res.data;
     } catch (e) {
-      console.log(e);
+      console.log("Something went wrong.");
     }
   }
 
@@ -65,7 +65,6 @@ const page = ({ params }: any) => {
   useEffect(() => {
     const res = filterDates(dates, filter);
     setChartDates(res);
-    console.log(dates)
   }, [filter])
 
   if (linkData == null) {

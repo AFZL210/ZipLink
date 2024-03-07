@@ -26,7 +26,7 @@ const GetLink = ({ params }: any) => {
       const res = await axios.post('/api/link/get-link/', { urlCode: params.urlCode, checkPassword: false, password: "", date: new Date().toISOString(), osType: deviceInfo[0], deviceType: deviceInfo[1] });
       return res.data;
     } catch (e) {
-      console.log(e);
+      console.log("Something went wrong.");
     }
   }
 

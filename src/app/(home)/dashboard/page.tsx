@@ -37,7 +37,7 @@ const Dashboard = () => {
 
     } catch (e) {
       await signOut();
-      toast({ description: `${(e as Error).message}`, variant: "destructive" });
+      toast({ description: 'Something went wrong!', variant: "destructive" });
       window.location.href = '/';
     }
   }

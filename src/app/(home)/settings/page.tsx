@@ -43,7 +43,7 @@ const Settings = () => {
                 toast({ description: "Successfully deleted your account.", variant: "default" });
                 window.location.href = "/";
             } catch (e) {
-                toast({ description: `${(e as Error).message}`, variant: "destructive" });
+                toast({ description: `Something went wrong!`, variant: "destructive" });
             }
         } else {
             return;
@@ -63,7 +63,7 @@ const Settings = () => {
                 setUser(updatedUser);
                 setErros({ username: { ...errors.username, disabled: true }, avatar: { ...errors.avatar } });
             } catch (e) {
-                toast({ description: `${(e as Error).message}`, variant: "destructive" });
+                toast({ description: 'Something went wrong!', variant: "destructive" });
             }
         } else {
             try {
@@ -75,7 +75,7 @@ const Settings = () => {
                     setErros({ username: { ...errors.username }, avatar: { ...errors.avatar, disabled: true } });
                 }
             } catch (e) {
-                toast({ description: `${(e as Error).message}`, variant: "destructive" });
+                toast({ description: 'Something went wrong!', variant: "destructive" });
             }
         }
     }

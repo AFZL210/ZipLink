@@ -38,7 +38,6 @@ const Signup = () => {
         variant: "destructive",
         description: (e as ICustomError).response?.data?.msg
       })
-      console.log(e)
     }
   }
 

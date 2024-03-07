@@ -56,7 +56,7 @@ const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, 
                 }
                 toast({ description: res.data.msg, variant });
             } catch (e) {
-                toast({ description: `${(e as Error).message}`, variant: "destructive" });
+                toast({ description: 'Something went wrong!', variant: "destructive" });
                 return;
             }
         } else {
@@ -79,7 +79,7 @@ const LinkItem: React.FC<LinkItemType> = ({ id, favicon, clicks, url, shortUrl, 
             }
 
         } catch (e) {
-            toast({ description: `${(e as Error).message}`, variant: "destructive" });
+            toast({ description: 'Something went wrong!', variant: "destructive" });
             return;
         }
     }
