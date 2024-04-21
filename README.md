@@ -51,39 +51,6 @@ ZipLink is a feature-rich URL shortener and link management tool.
 - [Vercel](https://ui.shadcn.com/)
 
 
-## 📁 Repository Structure
-
-```bash
-.
-|____prisma
-|____public
-|  |___static
-|____src
-| |____app
-| |____assets
-| |____components
-| | |____ui
-| | |____dashboard
-| | |____theme
-| | |____home
-| |____lib
-|    |___types
-|    |___utils.ts
-| |____data
-| |____hooks
-| |____types
-| |____store
-```
-
-- **`public/*`** - Static assets including images, fonts, audios, files, etc.
-- **`src/app/*`** - Every page and api route in the website. Uses the new [App Router](https://beta.nextjs.org/docs/getting-started#introducing-the-app-router) from [Next.js](https://nextjs.org/) `13.+`
-- **`src/assets/*`** - Fonts and static images used in different components
-- **`src/components/ui/*`** - This contain all the common ui components
-- **`src/data/*`** - JSON files containing data for projects
-- **`src/lib/types/*`** - Some types definitions
-- **`src/lib/utils.ts`** - More utilities functions but less complex than the ones in `lib`
-_ **`src/store`** - recoil atoms and selectors
-
 ## Testing Credentials
 - email: test@test.com
 - password: test12345
