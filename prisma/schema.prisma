@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Account {
@@ -36,7 +37,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  username      String    @unique @default("oauth-user")
+  username      String    @default("oauth-user")
   email         String    @unique
   password      String    @default("")
   emailVerified DateTime?
@@ -91,18 +92,17 @@ model LinkDate {
 }
 
 model OSType {
-  id      String    @id @default(cuid())
-  os      String
-  clicks  Int
-  linkId  String
-  link    Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  os     String
+  clicks Int
+  linkId String
+  link   Link   @relation(fields: [linkId], references: [id], onDelete: Cascade)
 }
 
 model DeviceType {
-  id          String    @id @default(cuid())
-  device      String
-  clicks      Int
-  linkId      String
-  link        Link      @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  device String
+  clicks Int
+  linkId String
+  link   Link   @relation(fields: [linkId], references: [id], onDelete: Cascade)
 }
-
